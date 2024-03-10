@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yourcar_com/l10n/l10n.dart';
+import 'package:sayaaratukcom/l10n/l10n.dart';
 
 class LocaleProvider extends ChangeNotifier {
   Locale _currentLocale = const Locale('ar');

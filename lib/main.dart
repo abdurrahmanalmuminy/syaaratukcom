@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:yourcar_com/addition/change_notifier.dart';
-import 'package:yourcar_com/addition/colors.dart';
-import 'package:yourcar_com/l10n/l10n.dart';
-import 'package:yourcar_com/ui/welcome.dart';
+import 'package:sayaaratukcom/addition/change_notifier.dart';
+import 'package:sayaaratukcom/addition/colors.dart';
+import 'package:sayaaratukcom/l10n/l10n.dart';
+import 'package:sayaaratukcom/ui/welcome.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
