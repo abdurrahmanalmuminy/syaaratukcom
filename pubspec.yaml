@@ -38,11 +38,11 @@ dependencies:
   cupertino_icons: ^1.0.6
   flutter_localizations:
     sdk: flutter
+  flutter_native_splash: ^2.3.13
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_native_splash: ^2.3.13
   flutter_launcher_icons: ^0.13.1
 
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -52,13 +52,13 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
 
-ç:
+flutter_native_splash:
   color: "#C5EC38"
-  image: assets/images/logo.png
+  image: assets/images/splash.png
 
   android_12:
     color: "#C5EC38"
-    image: assets/images/logo.png
+    image: assets/images/splash.png
   
   web: false
 
