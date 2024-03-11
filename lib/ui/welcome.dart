@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sayaaratukcom/addition/colors.dart';
-import 'package:sayaaratukcom/addition/paddings.dart';
+import 'package:sayaaratukcom/addition/padding.dart';
 import 'package:sayaaratukcom/addition/widgets.dart';
-import 'package:sayaaratukcom/ui/auth/signin.dart';
+import 'package:sayaaratukcom/ui/auth/phone.dart';
 import 'package:uicons/uicons.dart';
 
 class Welcome extends StatefulWidget {
@@ -45,24 +45,35 @@ class _WelcomeState extends State<Welcome> {
                 children: [
                   Hero(
                     tag: "phone_field",
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        heading(context,
-                            title: "تسجيل الدخول",
-                            subTitle:
-                                "لتسجيل الدخول أو إنشاء حساب، أدخل رقم هاتفك"),
-                        textField(context,
-                            hint: "رقم الهاتف",
-                            icon: UIcons.regularRounded.smartphone,
-                            readOnly: true, onTap: () {
-                          Navigator.of(context).push(CupertinoPageRoute(
-                              builder: (context) => const SignIn(),
-                              fullscreenDialog: true));
-                        }),
-                      ],
+                    child: Material(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          heading(context,
+                              title: "تسجيل الدخول",
+                              subTitle:
+                                  "لتسجيل الدخول أو إنشاء حساب، أدخل رقم هاتفك"),
+                          textField(context,
+                              hint: "رقم الهاتف (..55)",
+                              icon: UIcons.regularRounded.smartphone,
+                              readOnly: true, onTap: () {
+                            Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                  pageBuilder: (context, animation,
+                                          secondaryAnimation) =>
+                                      const Phone(),
+                                  fullscreenDialog: true),
+                            );
+                          }),
+                        ],
+                      ),
                     ),
-                  )
+                  ),
+                  gap(height: 15),
+                  optionB(context,
+                      text: "بتسجيل الدخول إلى حسابك أو إنشاء حساب جديد، فأنت توافق على ",
+                      option: "سياسة الإستخدام و سياسة الخصوصية")
                 ],
               ),
             ),
