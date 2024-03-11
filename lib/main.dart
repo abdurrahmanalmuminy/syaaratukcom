@@ -45,7 +45,10 @@ class MyApp extends StatelessWidget {
               background: Colors.white,
               onBackground: Colors.white,
               surface: AppColors.highlight3,
-              onSurface: Colors.black)),
+              onSurface: Colors.black),
+          textTheme: const TextTheme(
+            titleLarge: TextStyle(fontWeight: FontWeight.w600),
+          )),
       home: const Welcome(),
       supportedLocales: L10n.all,
       locale: Provider.of<LocaleProvider>(context).currentLocale,
