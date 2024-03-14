@@ -5,6 +5,6 @@ class AppColors {
   static Color highlight = const Color(0xFF000000).withOpacity(0.75);
   static Color highlight1 = const Color(0xFF000000).withOpacity(0.6);
   static Color highlight2 = const Color(0xFF000000).withOpacity(0.20);
-  static Color highlight3 = const Color(0xFFECECEC);
+  static Color highlight3 = const Color(0xFFE5E5E5);
   static const Color red = Color(0xFFF34242);
 }

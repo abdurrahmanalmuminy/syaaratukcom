@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sayaaratukcom/addition/padding.dart';
 import 'package:sayaaratukcom/addition/widgets.dart';
+import 'package:sayaaratukcom/ui/pages/navigation.dart';
 import 'package:uicons/uicons.dart';
 
 class Account extends StatefulWidget {
@@ -76,7 +77,7 @@ class _AccountState extends State<Account> {
                       ? null
                       : () {
                           Navigator.of(context).push(CupertinoPageRoute(
-                              builder: (context) => const Account()));
+                              builder: (context) => const Navigation()));
                         }),
               optionB(context,
                   text:

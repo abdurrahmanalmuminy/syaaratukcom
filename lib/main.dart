@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sayaaratukcom/addition/change_notifier.dart';
 import 'package:sayaaratukcom/addition/colors.dart';
 import 'package:sayaaratukcom/l10n/l10n.dart';
-import 'package:sayaaratukcom/ui/welcome.dart';
+import 'package:sayaaratukcom/ui/pages/navigation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           fontFamily: "Rubik",
           colorScheme: ColorScheme(
               brightness: Brightness.dark,
-              primary: AppColors.primaryColor,
+              primary: AppColors.highlight2,
               onPrimary: Colors.black,
               secondary: AppColors.primaryColor,
               onSecondary: Colors.black,
@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
           textTheme: const TextTheme(
             titleLarge: TextStyle(fontWeight: FontWeight.w600),
           )),
-      home: const Welcome(),
+      home: const Navigation(),
       supportedLocales: L10n.all,
       locale: Provider.of<LocaleProvider>(context).currentLocale,
       localizationsDelegates: const [
