@@ -6,7 +6,6 @@ import 'package:sayaaratukcom/addition/colors.dart';
 import 'package:sayaaratukcom/l10n/l10n.dart';
 import 'package:sayaaratukcom/ui/pages/navigation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -36,8 +35,8 @@ class MyApp extends StatelessWidget {
           fontFamily: "Rubik",
           colorScheme: ColorScheme(
               brightness: Brightness.dark,
-              primary: AppColors.highlight2,
-              onPrimary: Colors.black,
+              primary: AppColors.primaryColor,
+              onPrimary: Colors.white,
               secondary: AppColors.primaryColor,
               onSecondary: Colors.black,
               error: AppColors.red,
@@ -53,7 +52,6 @@ class MyApp extends StatelessWidget {
       supportedLocales: L10n.all,
       locale: Provider.of<LocaleProvider>(context).currentLocale,
       localizationsDelegates: const [
-        AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate

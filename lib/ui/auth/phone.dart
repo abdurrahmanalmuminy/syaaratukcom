@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:sayaaratukcom/addition/padding.dart';
 import 'package:sayaaratukcom/addition/widgets.dart';
 import 'package:sayaaratukcom/ui/auth/verification.dart';

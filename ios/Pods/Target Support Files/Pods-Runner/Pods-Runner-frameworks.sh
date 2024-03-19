@@ -176,15 +176,24 @@ code_sign_if_enabled() {
 }
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/app_settings/app_settings.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/flutter_native_splash/flutter_native_splash.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/geocoding_ios/geocoding_ios.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/location/location.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/smart_auth/smart_auth.framework"
 fi
 if [[ "$CONFIGURATION" == "Profile" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/app_settings/app_settings.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/flutter_native_splash/flutter_native_splash.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/geocoding_ios/geocoding_ios.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/location/location.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/smart_auth/smart_auth.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/app_settings/app_settings.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/flutter_native_splash/flutter_native_splash.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/geocoding_ios/geocoding_ios.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/location/location.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/smart_auth/smart_auth.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then

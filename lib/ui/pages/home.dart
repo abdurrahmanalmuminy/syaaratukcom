@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:sayaaratukcom/addition/colors.dart';
 import 'package:sayaaratukcom/addition/padding.dart';
 import 'package:sayaaratukcom/addition/services.dart';
@@ -119,8 +118,7 @@ class _HomeState extends State<Home> {
               physics: const NeverScrollableScrollPhysics(),
               itemCount: 6,
               itemBuilder: (context, index) {
-                return service(context,
-                    label: services[index].label, asset: services[index].asset);
+                return service(context, serviceItem: services[index]);
               },
             )
           ],

@@ -1,3 +1,6 @@
 ${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh
+${BUILT_PRODUCTS_DIR}/app_settings/app_settings.framework
 ${BUILT_PRODUCTS_DIR}/flutter_native_splash/flutter_native_splash.framework
+${BUILT_PRODUCTS_DIR}/geocoding_ios/geocoding_ios.framework
+${BUILT_PRODUCTS_DIR}/location/location.framework
 ${BUILT_PRODUCTS_DIR}/smart_auth/smart_auth.framework

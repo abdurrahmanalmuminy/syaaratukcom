@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sayaaratukcom/addition/colors.dart';
 import 'package:sayaaratukcom/ui/pages/home.dart';
 import 'package:sayaaratukcom/ui/pages/more.dart';
@@ -31,6 +32,14 @@ class _NavigationState extends State<Navigation> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarBrightness: Brightness.light,
+      statusBarIconBrightness: Brightness.dark,
+      systemNavigationBarColor: Colors.white,
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ));
+    
     return PopScope(
       canPop: false,
       child: Scaffold(

@@ -1,5 +1,9 @@
+import 'package:app_settings/app_settings.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sayaaratukcom/addition/colors.dart';
+import 'package:sayaaratukcom/addition/services.dart';
+import 'package:sayaaratukcom/ui/order_service.dart';
 import 'package:uicons/uicons.dart';
 
 Widget primaryButton(context, text,
@@ -27,13 +31,17 @@ Widget primaryButton(context, text,
   );
 }
 
-Widget heading(context, {required String title, required String subTitle}) {
+Widget heading(context,
+    {required String title, required String subTitle, bool? small}) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 15),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: Theme.of(context).textTheme.titleLarge),
+        Text(title,
+            style: small == true
+                ? Theme.of(context).textTheme.titleMedium
+                : Theme.of(context).textTheme.titleLarge),
         Text(subTitle, style: Theme.of(context).textTheme.titleSmall)
       ],
     ),
@@ -46,6 +54,7 @@ TextField textField(context,
     required String hint,
     required IconData icon,
     bool? readOnly,
+    bool? multiline,
     onTap,
     focus,
     Function(String)? onChanged}) {
@@ -56,6 +65,7 @@ TextField textField(context,
     readOnly: readOnly ?? false,
     onTap: onTap,
     autofocus: focus ?? false,
+    maxLines: multiline == true ? 3 : null,
     decoration: InputDecoration(
       contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
       enabledBorder: OutlineInputBorder(
@@ -103,6 +113,45 @@ Widget dropDown(
       );
     }).toList(),
     onChanged: onChanged,
+  );
+}
+
+Widget choose(
+    {onPressed,
+    required IconData icon,
+    required String hint,
+    required String indicator,
+    controller}) {
+  return TextField(
+    controller: controller,
+    readOnly: true,
+    onTap: onPressed,
+    decoration: InputDecoration(
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+        enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(width: 1.5, color: AppColors.highlight3),
+            borderRadius: BorderRadius.circular(10)),
+        focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(width: 1.5),
+            borderRadius: BorderRadius.circular(10)),
+        hintText: hint,
+        hintStyle: TextStyle(color: AppColors.highlight1),
+        prefixIcon: Icon(icon, color: AppColors.highlight1, size: 20),
+        suffixIcon: Container(
+          width: 150,
+          padding: const EdgeInsets.only(left: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(indicator),
+              Icon(UIcons.regularRounded.angle_small_left,
+                  color: AppColors.highlight1, size: 20),
+            ],
+          ),
+        )),
+    textDirection: TextDirection.rtl,
   );
 }
 
@@ -203,9 +252,12 @@ Widget section(context, {required String title}) {
   );
 }
 
-Widget service(context, {required String label, required String asset}) {
+Widget service(context, {required ServiceItem serviceItem}) {
   return ElevatedButton(
-    onPressed: () {},
+    onPressed: () {
+      Navigator.of(context).push(CupertinoPageRoute(
+          builder: (context) => OrderService(service: serviceItem)));
+    },
     style: ElevatedButton.styleFrom(
       padding: const EdgeInsets.only(top: 10, right: 10),
       elevation: 0,
@@ -218,11 +270,11 @@ Widget service(context, {required String label, required String asset}) {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          label,
+          serviceItem.label,
           style: Theme.of(context).textTheme.titleMedium,
         ),
         Expanded(
-          child: Image.asset(asset,
+          child: Image.asset(serviceItem.asset,
               fit: BoxFit.cover, alignment: Alignment.topRight),
         )
       ],
@@ -296,7 +348,10 @@ Widget profile(context) {
           ),
         ),
       ),
-      trailing: TextButton(child: Icon(UIcons.regularRounded.wallet), onPressed: (){},),
+      trailing: TextButton(
+        child: Icon(UIcons.regularRounded.wallet),
+        onPressed: () {},
+      ),
       title: const Text("مساء الخير"),
       subtitle: Text(
         "عبد الرحمن",
@@ -312,3 +367,33 @@ Widget moreItem(context, {required String label, required IconData icon}) {
         title: Text(label, style: Theme.of(context).textTheme.bodyLarge)),
   );
 }
+
+Widget switchTile(context,
+    {required Widget switchWidget,
+    required String title,
+    required String subTitle}) {
+  return ListTile(
+    contentPadding: const EdgeInsets.only(),
+    trailing: switchWidget,
+    title: Text(title, style: Theme.of(context).textTheme.titleMedium),
+    subtitle: Text(subTitle, style: Theme.of(context).textTheme.titleSmall),
+  );
+}
+
+Widget grantPermission(context) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text("يجب السماح للتطبيق بالوصول إلى الموقع",
+              style: Theme.of(context).textTheme.titleMedium),
+          gap(height: 10),
+          SizedBox(
+            width: 150,
+            child: primaryButton(context, "السماح", onPressed: () {
+              AppSettings.openAppSettings(type: AppSettingsType.location);
+            }),
+          )
+        ],
+      );
+    }
