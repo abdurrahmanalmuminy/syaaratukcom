@@ -3,7 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sayaaratukcom/addition/colors.dart';
 import 'package:sayaaratukcom/addition/services.dart';
-import 'package:sayaaratukcom/ui/order_service.dart';
+import 'package:sayaaratukcom/ui/offer.dart';
+import 'package:sayaaratukcom/ui/order_page.dart';
+import 'package:sayaaratukcom/ui/order_path.dart';
+import 'package:sayaaratukcom/ui/service_page.dart';
+import 'package:sayaaratukcom/ui/wallet.dart';
 import 'package:uicons/uicons.dart';
 
 Widget primaryButton(context, text,
@@ -34,7 +38,8 @@ Widget primaryButton(context, text,
 Widget heading(context,
     {required String title, required String subTitle, bool? small}) {
   return Padding(
-    padding: const EdgeInsets.only(bottom: 15),
+    padding:
+        small == true ? EdgeInsets.zero : const EdgeInsets.only(bottom: 15),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -191,9 +196,11 @@ Widget optionB(context, {text, option, onPressed}) {
   );
 }
 
-Widget minimizedWallet() {
+Widget minimizedWallet(context) {
   return TextButton(
-    onPressed: () {},
+    onPressed: () {
+      showWallet(context);
+    },
     style: TextButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2)),
     child: Row(
@@ -209,7 +216,7 @@ Widget minimizedWallet() {
           children: [
             Text("الرصيد", style: TextStyle(color: Colors.black)),
             Text(
-              "62.00 ريال",
+              "62.00 ر.س",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
@@ -224,7 +231,6 @@ Widget minimizedWallet() {
 
 AppBar appBar(context, {required String title}) {
   return AppBar(
-    automaticallyImplyLeading: false,
     backgroundColor: Colors.white,
     leadingWidth: 200,
     leading: Padding(
@@ -237,9 +243,33 @@ AppBar appBar(context, {required String title}) {
   );
 }
 
-Widget section(context, {required String title}) {
+AppBar pageBar(context, {required String title}) {
+  return AppBar(
+    backgroundColor: Colors.white,
+    leadingWidth: double.infinity,
+    leading: Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(UIcons.regularRounded.angle_right)),
+        Text(
+          title,
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+      ],
+    ),
+  );
+}
+
+Widget section(context, {required String title, bool? noPadding}) {
   return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 15),
+    padding: noPadding == true
+        ? EdgeInsets.zero
+        : const EdgeInsets.symmetric(horizontal: 15),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -300,7 +330,10 @@ Widget order(context,
     required String time,
     required String status}) {
   return InkWell(
-    onTap: () {},
+    onTap: () {
+      Navigator.of(context).push(CupertinoPageRoute(
+          builder: (context) => const OrderPage(), fullscreenDialog: true));
+    },
     child: ListTile(
       isThreeLine: true,
       leading: Icon(UIcons.regularRounded.car_side),
@@ -349,7 +382,10 @@ Widget profile(context) {
         ),
       ),
       trailing: TextButton(
-        child: Icon(UIcons.regularRounded.wallet),
+        child: Icon(
+          UIcons.regularRounded.wallet,
+          color: Colors.black,
+        ),
         onPressed: () {},
       ),
       title: const Text("مساء الخير"),
@@ -381,19 +417,132 @@ Widget switchTile(context,
 }
 
 Widget grantPermission(context) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text("يجب السماح للتطبيق بالوصول إلى الموقع",
-              style: Theme.of(context).textTheme.titleMedium),
-          gap(height: 10),
-          SizedBox(
-            width: 150,
-            child: primaryButton(context, "السماح", onPressed: () {
-              AppSettings.openAppSettings(type: AppSettingsType.location);
-            }),
-          )
-        ],
-      );
-    }
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+      Text("يجب السماح للتطبيق بالوصول إلى الموقع",
+          style: Theme.of(context).textTheme.titleMedium),
+      gap(height: 10),
+      SizedBox(
+        width: 150,
+        child: primaryButton(context, "السماح", onPressed: () {
+          AppSettings.openAppSettings(type: AppSettingsType.location);
+        }),
+      )
+    ],
+  );
+}
+
+Widget orderPathIndicator(context) {
+  return OutlinedButton(
+      onPressed: () {
+        Navigator.of(context).push(CupertinoPageRoute(
+            builder: (context) => const OrderPath(), fullscreenDialog: true));
+      },
+      style: OutlinedButton.styleFrom(
+          side: BorderSide(color: AppColors.highlight2, width: 1.5),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          padding: const EdgeInsets.all(10)),
+      child: IntrinsicHeight(
+        child: Row(
+          children: [
+            Expanded(
+              child: heading(context,
+                  title: "عنوان الإستلام",
+                  subTitle: "6566، 4155، التلال، حفر الباطن 39957، الس...",
+                  small: true),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: VerticalDivider(
+                thickness: 1.5,
+                color: AppColors.highlight2,
+              ),
+            ),
+            Expanded(
+              child: heading(context,
+                  title: "عنوان التوصيل",
+                  subTitle: "2067، 7870، المروج، حفر الباطن 39957، فيح...",
+                  small: true),
+            ),
+          ],
+        ),
+      ));
+}
+
+Widget offer(context) {
+  return ElevatedButton(
+    onPressed: () {
+      showOffer(context);
+    },
+    style: ElevatedButton.styleFrom(
+        elevation: 0,
+        backgroundColor: AppColors.highlight3,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
+    child: Row(
+      children: [
+        Container(
+          height: 50,
+          width: 50,
+          decoration: BoxDecoration(
+              color: AppColors.highlight2,
+              borderRadius: BorderRadius.circular(100)),
+        ),
+        gap(width: 10),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text("أحمد محسن",
+                style: TextStyle(
+                    fontSize: 19,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(UIcons.solidRounded.marker, color: Colors.black, size: 15),
+                gap(width: 2),
+                Text("8.2", style: Theme.of(context).textTheme.titleMedium),
+              ],
+            )
+          ],
+        ),
+        const Expanded(child: SizedBox()),
+        RichText(
+          text: TextSpan(
+              text: "112.47",
+              style: Theme.of(context).textTheme.titleLarge,
+              children: <TextSpan>[
+                TextSpan(
+                  text: "ر.س",
+                  style: TextStyle(fontSize: 15, color: AppColors.highlight1),
+                )
+              ]),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget transaction(context,
+    {required String subject, required String message}) {
+  return InkWell(
+    onTap: () {},
+    child: ListTile(
+      trailing:
+          Text("- 102.00 ر.س", style: Theme.of(context).textTheme.titleSmall),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 0),
+      title: Text(
+        subject,
+        style: Theme.of(context).textTheme.titleMedium,
+      ),
+      subtitle: Text(message),
+      shape: Border(bottom: BorderSide(width: 1, color: AppColors.highlight3)),
+    ),
+  );
+}

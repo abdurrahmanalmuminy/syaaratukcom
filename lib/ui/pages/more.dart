@@ -29,7 +29,12 @@ class _MoreState extends State<More> {
           moreItem(context,
               label: "الدعم الفني", icon: UIcons.regularRounded.headset),
           moreItem(context,
-              label: "الإعدادات", icon: UIcons.regularRounded.settings_sliders),
+              label: "تسجيل الخروج", icon: UIcons.regularRounded.sign_out_alt),
+          moreItem(context,
+              label: "حذف الحساب", icon: UIcons.regularRounded.trash),
+          const Expanded(child: SizedBox()),
+          TextButton(child: const Text("الكون الجديد لتقنية المعلومات", style: TextStyle(color: Colors.blue),), onPressed: (){},),
+          gap(height: 15),
         ],
       ),
     );

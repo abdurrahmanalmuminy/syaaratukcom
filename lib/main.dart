@@ -4,8 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:sayaaratukcom/addition/change_notifier.dart';
 import 'package:sayaaratukcom/addition/colors.dart';
 import 'package:sayaaratukcom/l10n/l10n.dart';
+import 'package:sayaaratukcom/ui/auth/phone.dart';
 import 'package:sayaaratukcom/ui/pages/navigation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:sayaaratukcom/ui/welcome.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -47,8 +49,9 @@ class MyApp extends StatelessWidget {
               onSurface: Colors.black),
           textTheme: const TextTheme(
             titleLarge: TextStyle(fontWeight: FontWeight.w600),
+            displayMedium:  TextStyle(fontWeight: FontWeight.w600),
           )),
-      home: const Navigation(),
+      home: const Welcome(),
       supportedLocales: L10n.all,
       locale: Provider.of<LocaleProvider>(context).currentLocale,
       localizationsDelegates: const [

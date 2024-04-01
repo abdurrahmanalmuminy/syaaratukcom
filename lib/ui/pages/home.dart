@@ -19,9 +19,9 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     List<String> imageList = [
-      'assets/images/Ad.jpg',
-      'assets/images/Ad.jpg',
-      'assets/images/Ad.jpg',
+      'assets/images/Ad.jpeg',
+      'assets/images/Ad.jpeg',
+      'assets/images/Ad.jpeg',
     ];
 
     final screenWidth = MediaQuery.of(context).size.width;
@@ -47,7 +47,7 @@ class _HomeState extends State<Home> {
         actions: [
           Padding(
             padding: const EdgeInsets.only(left: 15),
-            child: minimizedWallet(),
+            child: minimizedWallet(context),
           )
         ],
       ),

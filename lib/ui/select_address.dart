@@ -3,13 +3,16 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart' as geocoding;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_webservice/places.dart' as maps_webservice;
 import 'package:location/location.dart';
 import 'package:sayaaratukcom/addition/padding.dart';
 import 'package:sayaaratukcom/addition/widgets.dart';
+import 'package:sayaaratukcom/addition/search_address.dart';
 import 'package:uicons/uicons.dart';
 
 class SelectAddress extends StatefulWidget {
-  const SelectAddress({super.key});
+  final String address;
+  const SelectAddress({super.key, required this.address});
 
   @override
   State<SelectAddress> createState() => _SelectAddressState();
@@ -19,7 +22,7 @@ class _SelectAddressState extends State<SelectAddress> {
   LatLng? userLocation;
   String? address;
 
-  Location location = new Location();
+  Location location = Location();
   bool? _serviceEnabled;
   PermissionStatus? _permissionGranted;
   LocationData? _locationData;
@@ -48,14 +51,15 @@ class _SelectAddressState extends State<SelectAddress> {
             LatLng(_locationData!.latitude!, _locationData!.longitude!);
         getAddress();
       });
+      return;
     });
   }
 
   Future<void> getAddress() async {
     try {
       List<geocoding.Placemark> placemarks =
-          await geocoding.placemarkFromCoordinates(userLocation!.latitude,
-              userLocation!.longitude);
+          await geocoding.placemarkFromCoordinates(
+              userLocation?.latitude ?? 0, userLocation?.longitude ?? 0);
       geocoding.Placemark place = placemarks[0];
       setState(() {
         address = "${place.name}, ${place.locality}, ${place.country}";
@@ -71,9 +75,18 @@ class _SelectAddressState extends State<SelectAddress> {
     super.initState();
   }
 
+  GoogleMapController? mapController;
+
+  @override
+  void dispose() {
+    mapController?.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: IconButton(
@@ -89,13 +102,25 @@ class _SelectAddressState extends State<SelectAddress> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               heading(context,
-                  title: "اختر العنوان",
-                  subTitle: address ??
-                      "اختر عنوانك من الخريطة او ابحث عن معلم"), //"6566، 4155، التلال، حفر الباطن 39957، السعودية"),
-              textField(context,
-                  readOnly: true,
-                  hint: "إبحث عن عنوان",
-                  icon: UIcons.regularRounded.search),
+                  title: widget.address,
+                  subTitle:
+                      address ?? "اختر ${widget.address} من الخريطة او ابحث عن معلم"),
+              textField(context, readOnly: true, onTap: () async {
+                maps_webservice.Prediction? prediction =
+                    await searchAddress(context);
+
+                if (prediction != null) {
+                  LatLng placeLatLng = await getPlaceLatLng(prediction);
+                  setState(() {
+                    userLocation = placeLatLng;
+                    getAddress();
+                    if (mapController != null) {
+                      mapController?.animateCamera(
+                          CameraUpdate.newLatLngZoom(placeLatLng, 14));
+                    }
+                  });
+                }
+              }, hint: "إبحث عن عنوان", icon: UIcons.regularRounded.search),
               gap(height: 10),
               userLocation == null
                   ? Expanded(child: grantPermission(context))
@@ -103,19 +128,28 @@ class _SelectAddressState extends State<SelectAddress> {
                       child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: GoogleMap(
+                        myLocationEnabled: true,
                         onTap: (LatLng currentLocation) {
                           setState(() {
                             userLocation = currentLocation;
                             getAddress();
-                            //userGeoPoint = GeoPoint.fromLatLng(point: userLocation!);
+                            if (mapController != null) {
+                              mapController?.animateCamera(
+                                  CameraUpdate.newLatLngZoom(
+                                      userLocation!, 14));
+                            }
                           });
                         },
-                        initialCameraPosition:
-                            CameraPosition(target: userLocation!, zoom: 14.5),
+                        initialCameraPosition: CameraPosition(
+                            target: userLocation ?? const LatLng(0, 0),
+                            zoom: 14),
+                        onMapCreated: (controller) {
+                          mapController = controller;
+                        },
                         markers: {
                           Marker(
                               markerId: const MarkerId("userLocation"),
-                              position: userLocation!)
+                              position: userLocation ?? const LatLng(0, 0))
                         },
                       ),
                     )),
