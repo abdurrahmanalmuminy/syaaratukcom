@@ -5,9 +5,9 @@ import 'package:geocoding/geocoding.dart' as geocoding;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart' as maps_webservice;
 import 'package:location/location.dart';
-import 'package:sayaaratukcom/addition/padding.dart';
-import 'package:sayaaratukcom/addition/widgets.dart';
-import 'package:sayaaratukcom/addition/search_address.dart';
+import 'package:sayaaratukcom/styles/dimentions.dart';
+import 'package:sayaaratukcom/widgets/widgets.dart';
+import 'package:sayaaratukcom/utils/search_address.dart';
 import 'package:uicons/uicons.dart';
 
 class SelectAddress extends StatefulWidget {

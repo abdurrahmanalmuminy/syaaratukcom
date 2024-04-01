@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sayaaratukcom/addition/widgets.dart';
+import 'package:sayaaratukcom/widgets/widgets.dart';
 
 class Orders extends StatefulWidget {
   const Orders({super.key});

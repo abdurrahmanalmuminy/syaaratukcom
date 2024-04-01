@@ -1,13 +1,13 @@
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sayaaratukcom/addition/colors.dart';
-import 'package:sayaaratukcom/addition/services.dart';
-import 'package:sayaaratukcom/ui/offer.dart';
-import 'package:sayaaratukcom/ui/order_page.dart';
-import 'package:sayaaratukcom/ui/order_path.dart';
-import 'package:sayaaratukcom/ui/service_page.dart';
-import 'package:sayaaratukcom/ui/wallet.dart';
+import 'package:sayaaratukcom/styles/colors.dart';
+import 'package:sayaaratukcom/models/services.dart';
+import 'package:sayaaratukcom/screens/offer.dart';
+import 'package:sayaaratukcom/screens/order_page.dart';
+import 'package:sayaaratukcom/screens/order_path.dart';
+import 'package:sayaaratukcom/screens/service_page.dart';
+import 'package:sayaaratukcom/screens/wallet.dart';
 import 'package:uicons/uicons.dart';
 
 Widget primaryButton(context, text,

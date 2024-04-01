@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:sayaaratukcom/addition/change_notifier.dart';
-import 'package:sayaaratukcom/addition/colors.dart';
+import 'package:sayaaratukcom/utils/change_notifier.dart';
+import 'package:sayaaratukcom/styles/colors.dart';
 import 'package:sayaaratukcom/l10n/l10n.dart';
-import 'package:sayaaratukcom/ui/auth/phone.dart';
-import 'package:sayaaratukcom/ui/pages/navigation.dart';
+import 'package:sayaaratukcom/screens/authentication/phone.dart';
+import 'package:sayaaratukcom/screens/pages/navigation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:sayaaratukcom/ui/welcome.dart';
+import 'package:sayaaratukcom/screens/welcome.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 

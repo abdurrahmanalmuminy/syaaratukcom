@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sayaaratukcom/addition/colors.dart';
-import 'package:sayaaratukcom/addition/padding.dart';
-import 'package:sayaaratukcom/addition/services.dart';
-import 'package:sayaaratukcom/addition/widgets.dart';
-import 'package:sayaaratukcom/ui/order_page.dart';
-import 'package:sayaaratukcom/ui/select_address.dart';
+import 'package:sayaaratukcom/styles/colors.dart';
+import 'package:sayaaratukcom/styles/dimentions.dart';
+import 'package:sayaaratukcom/models/services.dart';
+import 'package:sayaaratukcom/widgets/widgets.dart';
+import 'package:sayaaratukcom/screens/order_page.dart';
+import 'package:sayaaratukcom/screens/select_address.dart';
 import 'package:uicons/uicons.dart';
 
 class OrderService extends StatefulWidget {

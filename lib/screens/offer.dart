@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sayaaratukcom/addition/widgets.dart';
+import 'package:sayaaratukcom/widgets/widgets.dart';
 
 void showOffer(context) {
   showModalBottomSheet(

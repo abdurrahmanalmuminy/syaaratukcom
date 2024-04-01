@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sayaaratukcom/addition/colors.dart';
-import 'package:sayaaratukcom/ui/pages/home.dart';
-import 'package:sayaaratukcom/ui/pages/more.dart';
-import 'package:sayaaratukcom/ui/pages/notifications.dart';
-import 'package:sayaaratukcom/ui/pages/orders.dart';
+import 'package:sayaaratukcom/styles/colors.dart';
+import 'package:sayaaratukcom/screens/pages/home.dart';
+import 'package:sayaaratukcom/screens/pages/more.dart';
+import 'package:sayaaratukcom/screens/pages/notifications.dart';
+import 'package:sayaaratukcom/screens/pages/orders.dart';
 import 'package:uicons/uicons.dart';
 
 class Navigation extends StatefulWidget {

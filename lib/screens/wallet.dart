@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sayaaratukcom/addition/colors.dart';
-import 'package:sayaaratukcom/addition/widgets.dart';
+import 'package:sayaaratukcom/styles/colors.dart';
+import 'package:sayaaratukcom/widgets/widgets.dart';
 
 void showWallet(context) {
   showModalBottomSheet(

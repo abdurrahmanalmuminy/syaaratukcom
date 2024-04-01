@@ -1,10 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:sayaaratukcom/addition/colors.dart';
-import 'package:sayaaratukcom/addition/padding.dart';
-import 'package:sayaaratukcom/addition/services.dart';
-import 'package:sayaaratukcom/addition/widgets.dart';
+import 'package:sayaaratukcom/styles/colors.dart';
+import 'package:sayaaratukcom/styles/dimentions.dart';
+import 'package:sayaaratukcom/models/services.dart';
+import 'package:sayaaratukcom/widgets/widgets.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});

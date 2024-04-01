@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sayaaratukcom/addition/colors.dart';
-import 'package:sayaaratukcom/addition/padding.dart';
-import 'package:sayaaratukcom/addition/widgets.dart';
-import 'package:sayaaratukcom/ui/auth/phone.dart';
+import 'package:sayaaratukcom/styles/colors.dart';
+import 'package:sayaaratukcom/styles/dimentions.dart';
+import 'package:sayaaratukcom/widgets/widgets.dart';
+import 'package:sayaaratukcom/screens/authentication/phone.dart';
 import 'package:uicons/uicons.dart';
 
 class Welcome extends StatefulWidget {

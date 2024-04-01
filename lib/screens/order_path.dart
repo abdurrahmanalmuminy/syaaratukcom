@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:sayaaratukcom/addition/calculate_mid_point.dart';
-import 'package:sayaaratukcom/addition/padding.dart';
-import 'package:sayaaratukcom/addition/widgets.dart';
+import 'package:sayaaratukcom/utils/calculate_mid_point.dart';
+import 'package:sayaaratukcom/styles/dimentions.dart';
+import 'package:sayaaratukcom/widgets/widgets.dart';
 import 'package:uicons/uicons.dart';
 
 class OrderPath extends StatefulWidget {
