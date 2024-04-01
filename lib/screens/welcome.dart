@@ -34,7 +34,7 @@ class _WelcomeState extends State<Welcome> {
                       child:
                           Image.asset("assets/images/logo.png", width: 150)))),
           Container(
-            padding: bodyPadding,
+            padding: Dimensions.bodyPadding,
             color: Colors.white,
             child: SafeArea(
               top: false,

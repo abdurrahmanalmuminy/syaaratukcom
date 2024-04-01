@@ -16,7 +16,7 @@ class _OrderPageState extends State<OrderPage> {
     return Scaffold(
       appBar: pageBar(context, title: "سطحة - #2799"),
       body: Padding(
-        padding: bodyPadding,
+        padding: Dimensions.bodyPadding,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [

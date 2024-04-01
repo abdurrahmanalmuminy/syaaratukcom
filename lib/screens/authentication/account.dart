@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sayaaratukcom/styles/dimentions.dart';
 import 'package:sayaaratukcom/widgets/widgets.dart';
-import 'package:sayaaratukcom/screens/pages/navigation.dart';
+import 'package:sayaaratukcom/screens/menu/navigation.dart';
 import 'package:uicons/uicons.dart';
 
 class Account extends StatefulWidget {
@@ -38,7 +38,7 @@ class _AccountState extends State<Account> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: bodyPadding,
+          padding: Dimensions.bodyPadding,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [

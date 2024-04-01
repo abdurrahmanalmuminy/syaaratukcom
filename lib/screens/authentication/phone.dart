@@ -35,7 +35,7 @@ class _PhoneState extends State<Phone> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: bodyPadding,
+          padding: Dimensions.bodyPadding,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [

@@ -28,7 +28,7 @@ class _OrderServiceState extends State<OrderService> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: bodyPadding,
+            padding: Dimensions.bodyPadding,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -95,7 +95,7 @@ class _OrderServiceState extends State<OrderService> {
         child: SafeArea(
           top: false,
           child: Padding(
-            padding: bodyPadding,
+            padding: Dimensions.bodyPadding,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [

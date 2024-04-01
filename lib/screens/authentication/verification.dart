@@ -57,7 +57,7 @@ class _VerificationState extends State<Verification> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: bodyPadding,
+          padding: Dimensions.bodyPadding,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [

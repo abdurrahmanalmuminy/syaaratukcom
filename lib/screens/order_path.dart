@@ -92,7 +92,7 @@ class _OrderPathState extends State<OrderPath> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: bodyPadding,
+          padding: Dimensions.bodyPadding,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [

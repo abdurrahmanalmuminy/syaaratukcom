@@ -108,7 +108,7 @@ class _HomeState extends State<Home> {
             gap(height: 25),
             section(context, title: "خدماتنا"),
             GridView.builder(
-              padding: bodyPadding,
+              padding: Dimensions.bodyPadding,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisSpacing: 10.0,
                   mainAxisSpacing: 10.0,
