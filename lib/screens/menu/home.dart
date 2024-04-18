@@ -1,9 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:sayaaratukcom/models/user_model.dart';
 import 'package:sayaaratukcom/styles/colors.dart';
 import 'package:sayaaratukcom/styles/dimentions.dart';
 import 'package:sayaaratukcom/models/services.dart';
+import 'package:sayaaratukcom/widgets/balance.dart';
 import 'package:sayaaratukcom/widgets/widgets.dart';
 
 class Home extends StatefulWidget {
@@ -38,16 +41,17 @@ class _HomeState extends State<Home> {
             children: [
               const Text("مساء الخير"),
               Text(
-                "عبد الرحمن",
+                userProfile.name,
                 style: Theme.of(context).textTheme.titleLarge,
+                overflow: TextOverflow.ellipsis,
               )
             ],
           ),
         ),
-        actions: [
+        actions: const [
           Padding(
-            padding: const EdgeInsets.only(left: 15),
-            child: minimizedWallet(context),
+            padding: EdgeInsets.only(left: 15),
+            child: Balance(),
           )
         ],
       ),

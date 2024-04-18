@@ -1,20 +1,27 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:sayaaratukcom/screens/authentication/profile.dart';
+import 'package:sayaaratukcom/screens/menu/navigation.dart';
+import 'package:sayaaratukcom/services/register_user.dart';
 import 'package:sayaaratukcom/utils/change_notifier.dart';
 import 'package:sayaaratukcom/styles/colors.dart';
 import 'package:sayaaratukcom/l10n/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sayaaratukcom/screens/welcome.dart';
 
-final navigatorKey = GlobalKey<NavigatorState>();
+bool registered = false;
 
-void main() async {
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   SystemChrome.setEnabledSystemUIMode(
     SystemUiMode.manual,
     overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
   );
+  registered = await initUser();
   runApp(
     ChangeNotifierProvider(
       create: (_) => LocaleProvider(),
@@ -47,9 +54,13 @@ class MyApp extends StatelessWidget {
               onSurface: Colors.black),
           textTheme: const TextTheme(
             titleLarge: TextStyle(fontWeight: FontWeight.w600),
-            displayMedium:  TextStyle(fontWeight: FontWeight.w600),
+            displayMedium: TextStyle(fontWeight: FontWeight.w600),
           )),
-      home: const Welcome(),
+      home: FirebaseAuth.instance.currentUser != null
+          ? registered
+              ? const Navigation()
+              : const Profile()
+          : const Welcome(),
       supportedLocales: L10n.all,
       locale: Provider.of<LocaleProvider>(context).currentLocale,
       localizationsDelegates: const [

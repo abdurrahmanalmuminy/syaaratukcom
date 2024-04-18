@@ -2,13 +2,13 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart' as geocoding;
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart' as maps_webservice;
 import 'package:location/location.dart';
 import 'package:sayaaratukcom/styles/dimentions.dart';
 import 'package:sayaaratukcom/widgets/widgets.dart';
 import 'package:sayaaratukcom/utils/search_address.dart';
 import 'package:uicons/uicons.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class SelectAddress extends StatefulWidget {
   final String address;
@@ -19,8 +19,8 @@ class SelectAddress extends StatefulWidget {
 }
 
 class _SelectAddressState extends State<SelectAddress> {
-  LatLng? userLocation;
-  String? address;
+  LatLng? selectedPoint;
+  String? selectedAddress;
 
   Location location = Location();
   bool? _serviceEnabled;
@@ -47,7 +47,7 @@ class _SelectAddressState extends State<SelectAddress> {
     _locationData = await location.getLocation().then((location) {
       _locationData = location;
       setState(() {
-        userLocation =
+        selectedPoint =
             LatLng(_locationData!.latitude!, _locationData!.longitude!);
         getAddress();
       });
@@ -59,10 +59,10 @@ class _SelectAddressState extends State<SelectAddress> {
     try {
       List<geocoding.Placemark> placemarks =
           await geocoding.placemarkFromCoordinates(
-              userLocation?.latitude ?? 0, userLocation?.longitude ?? 0);
+              selectedPoint?.latitude ?? 0, selectedPoint?.longitude ?? 0);
       geocoding.Placemark place = placemarks[0];
       setState(() {
-        address = "${place.name}, ${place.locality}, ${place.country}";
+        selectedAddress = "${place.name}, ${place.locality}, ${place.country}";
       });
     } catch (e) {
       log(e.toString());
@@ -103,8 +103,8 @@ class _SelectAddressState extends State<SelectAddress> {
             children: [
               heading(context,
                   title: widget.address,
-                  subTitle:
-                      address ?? "اختر ${widget.address} من الخريطة او ابحث عن معلم"),
+                  subTitle: selectedAddress ??
+                      "اختر ${widget.address} من الخريطة او ابحث عن معلم"),
               textField(context, readOnly: true, onTap: () async {
                 maps_webservice.Prediction? prediction =
                     await searchAddress(context);
@@ -112,7 +112,7 @@ class _SelectAddressState extends State<SelectAddress> {
                 if (prediction != null) {
                   LatLng placeLatLng = await getPlaceLatLng(prediction);
                   setState(() {
-                    userLocation = placeLatLng;
+                    selectedPoint = placeLatLng;
                     getAddress();
                     if (mapController != null) {
                       mapController?.animateCamera(
@@ -122,7 +122,7 @@ class _SelectAddressState extends State<SelectAddress> {
                 }
               }, hint: "إبحث عن عنوان", icon: UIcons.regularRounded.search),
               gap(height: 10),
-              userLocation == null
+              selectedPoint == null
                   ? Expanded(child: grantPermission(context))
                   : Expanded(
                       child: ClipRRect(
@@ -131,17 +131,17 @@ class _SelectAddressState extends State<SelectAddress> {
                         myLocationEnabled: true,
                         onTap: (LatLng currentLocation) {
                           setState(() {
-                            userLocation = currentLocation;
+                            selectedPoint = currentLocation;
                             getAddress();
                             if (mapController != null) {
                               mapController?.animateCamera(
                                   CameraUpdate.newLatLngZoom(
-                                      userLocation!, 14));
+                                      selectedPoint!, 14));
                             }
                           });
                         },
                         initialCameraPosition: CameraPosition(
-                            target: userLocation ?? const LatLng(0, 0),
+                            target: selectedPoint ?? const LatLng(0, 0),
                             zoom: 14),
                         onMapCreated: (controller) {
                           mapController = controller;
@@ -149,7 +149,7 @@ class _SelectAddressState extends State<SelectAddress> {
                         markers: {
                           Marker(
                               markerId: const MarkerId("userLocation"),
-                              position: userLocation ?? const LatLng(0, 0))
+                              position: selectedPoint ?? const LatLng(0, 0))
                         },
                       ),
                     )),
@@ -162,7 +162,7 @@ class _SelectAddressState extends State<SelectAddress> {
               //     subTitle: "احفظ هذا العنوان لإستخدامه لاحقاً"),
               gap(height: 10),
               primaryButton(context, "تأكيد العنوان", onPressed: () {
-                Navigator.pop(context);
+                Navigator.pop(context, [selectedPoint, selectedAddress]);
               })
             ],
           ),

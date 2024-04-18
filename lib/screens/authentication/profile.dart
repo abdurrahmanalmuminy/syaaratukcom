@@ -1,18 +1,17 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sayaaratukcom/services/register_user.dart';
 import 'package:sayaaratukcom/styles/dimentions.dart';
 import 'package:sayaaratukcom/widgets/widgets.dart';
-import 'package:sayaaratukcom/screens/menu/navigation.dart';
 import 'package:uicons/uicons.dart';
 
-class Account extends StatefulWidget {
-  const Account({super.key});
+class Profile extends StatefulWidget {
+  const Profile({super.key});
 
   @override
-  State<Account> createState() => _AccountState();
+  State<Profile> createState() => _ProfileState();
 }
 
-class _AccountState extends State<Account> {
+class _ProfileState extends State<Profile> {
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
   String gender = "ذكر";
@@ -76,8 +75,10 @@ class _AccountState extends State<Account> {
                   onPressed: !active
                       ? null
                       : () {
-                          Navigator.of(context).push(CupertinoPageRoute(
-                              builder: (context) => const Navigation()));
+                          signUp(context,
+                              name: name.text,
+                              email: email.text,
+                              gender: gender);
                         }),
               optionB(context,
                   text:

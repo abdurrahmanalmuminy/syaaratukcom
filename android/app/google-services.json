@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1038323445648",
+    "project_id": "sayaaratukcom",
+    "storage_bucket": "sayaaratukcom.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1038323445648:android:8d2064a3193bc086f80d15",
+        "android_client_info": {
+          "package_name": "com.sayaaratukcom.provider.sa"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDh6hi_VkS-R8okYc9VttIzUAzxlDWfvGw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1038323445648:android:d0e2825110dbefcff80d15",
+        "android_client_info": {
+          "package_name": "com.sayaaratukcom.sa"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDh6hi_VkS-R8okYc9VttIzUAzxlDWfvGw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

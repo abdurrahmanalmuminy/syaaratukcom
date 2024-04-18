@@ -1,21 +1,21 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
+import 'package:sayaaratukcom/services/auth_service.dart';
 import 'package:sayaaratukcom/styles/colors.dart';
 import 'package:sayaaratukcom/styles/dimentions.dart';
 import 'package:sayaaratukcom/widgets/widgets.dart';
-import 'package:sayaaratukcom/screens/authentication/account.dart';
 import 'package:uicons/uicons.dart';
 
 class Verification extends StatefulWidget {
-  const Verification({super.key});
+  final String verificationId;
+  const Verification({super.key, required this.verificationId});
 
   @override
   State<Verification> createState() => _VerificationState();
 }
 
 class _VerificationState extends State<Verification> {
-  TextEditingController otp = TextEditingController();
+  TextEditingController smsCode = TextEditingController();
   bool active = false;
 
   @override
@@ -42,7 +42,7 @@ class _VerificationState extends State<Verification> {
 
     void updateButton() {
       setState(() {
-        active = otp.text.isNotEmpty ? true : false;
+        active = smsCode.text.isNotEmpty ? true : false;
       });
     }
 
@@ -65,7 +65,7 @@ class _VerificationState extends State<Verification> {
                   title: "رمز التحقق",
                   subTitle: "أدخل رمز التحقق المرسل إلى هاتفك"),
               Pinput(
-                controller: otp,
+                controller: smsCode,
                 length: 6,
                 defaultPinTheme: defaultPinTheme,
                 focusedPinTheme: focusedPinTheme,
@@ -85,10 +85,9 @@ class _VerificationState extends State<Verification> {
                   onPressed: !active
                       ? null
                       : () {
-                          Navigator.of(context).push(CupertinoPageRoute(
-                              builder: (context) => const Account()));
+                          verifyOtp(context, widget.verificationId, smsCode.text);
                         }),
-              optionB(context,
+              optionB(context,  
                   text:
                       "بياناتك آمنة، ولن يتم مشاركتها مع أي طرف ثالث لمزيد من التفاصيل ",
                   option: "سياسة الإستخدام و سياسة الخصوصية")

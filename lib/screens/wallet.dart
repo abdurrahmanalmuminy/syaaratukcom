@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sayaaratukcom/models/user_model.dart';
 import 'package:sayaaratukcom/styles/colors.dart';
 import 'package:sayaaratukcom/widgets/widgets.dart';
 
@@ -30,8 +31,9 @@ void showWallet(context) {
                           children: [
                             RichText(
                               text: TextSpan(
-                                  text: "62.00",
-                                  style: Theme.of(context).textTheme.displayMedium,
+                                  text: "${userProfile.balance}",
+                                  style:
+                                      Theme.of(context).textTheme.displayMedium,
                                   children: <TextSpan>[
                                     TextSpan(
                                       text: " ر.س",
@@ -49,8 +51,12 @@ void showWallet(context) {
                         ),
                       ),
                       section(context, title: "العمليات", noPadding: true),
-                      transaction(context, subject: "رسوم الطلب", message: "11 يوليو 2023 - 10:47"),
-                      transaction(context, subject: "رسوم الطلب", message: "11 يوليو 2023 - 10:47"),
+                      transaction(context,
+                          subject: "رسوم الطلب",
+                          message: "11 يوليو 2023 - 10:47"),
+                      transaction(context,
+                          subject: "رسوم الطلب",
+                          message: "11 يوليو 2023 - 10:47"),
                     ],
                   ),
                 ),

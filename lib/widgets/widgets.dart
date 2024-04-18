@@ -1,13 +1,15 @@
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sayaaratukcom/models/order_model.dart';
+import 'package:sayaaratukcom/models/user_model.dart';
 import 'package:sayaaratukcom/styles/colors.dart';
 import 'package:sayaaratukcom/models/services.dart';
 import 'package:sayaaratukcom/screens/offer.dart';
 import 'package:sayaaratukcom/screens/order_page.dart';
 import 'package:sayaaratukcom/screens/order_path.dart';
 import 'package:sayaaratukcom/screens/service_page.dart';
-import 'package:sayaaratukcom/screens/wallet.dart';
+import 'package:sayaaratukcom/utils/format_timestamp.dart';
 import 'package:uicons/uicons.dart';
 
 Widget primaryButton(context, text,
@@ -47,7 +49,12 @@ Widget heading(context,
             style: small == true
                 ? Theme.of(context).textTheme.titleMedium
                 : Theme.of(context).textTheme.titleLarge),
-        Text(subTitle, style: Theme.of(context).textTheme.titleSmall)
+        Text(
+          subTitle,
+          style: Theme.of(context).textTheme.titleSmall,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 3,
+        )
       ],
     ),
   );
@@ -62,6 +69,8 @@ TextField textField(context,
     bool? multiline,
     onTap,
     focus,
+    TextDirection? direction,
+    TextAlign? align,
     Function(String)? onChanged}) {
   return TextField(
     controller: controller,
@@ -71,6 +80,7 @@ TextField textField(context,
     onTap: onTap,
     autofocus: focus ?? false,
     maxLines: multiline == true ? 3 : null,
+    textAlign: align ?? TextAlign.start,
     decoration: InputDecoration(
       contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
       enabledBorder: OutlineInputBorder(
@@ -84,7 +94,7 @@ TextField textField(context,
       prefixIcon: Icon(icon, color: AppColors.highlight1, size: 20),
     ),
     obscureText: false,
-    textDirection: TextDirection.rtl,
+    textDirection: direction,
     onChanged: onChanged,
   );
 }
@@ -196,39 +206,6 @@ Widget optionB(context, {text, option, onPressed}) {
   );
 }
 
-Widget minimizedWallet(context) {
-  return TextButton(
-    onPressed: () {
-      showWallet(context);
-    },
-    style: TextButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2)),
-    child: Row(
-      children: [
-        Icon(
-          UIcons.solidRounded.wallet,
-          color: Colors.black,
-        ),
-        const SizedBox(width: 5),
-        const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("الرصيد", style: TextStyle(color: Colors.black)),
-            Text(
-              "62.00 ر.س",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: Colors.black),
-            )
-          ],
-        )
-      ],
-    ),
-  );
-}
-
 AppBar appBar(context, {required String title}) {
   return AppBar(
     backgroundColor: Colors.white,
@@ -282,7 +259,7 @@ Widget section(context, {required String title, bool? noPadding}) {
   );
 }
 
-Widget service(context, {required ServiceItem serviceItem}) {
+Widget service(context, {required ServiceModel serviceItem}) {
   return ElevatedButton(
     onPressed: () {
       Navigator.of(context).push(CupertinoPageRoute(
@@ -324,27 +301,30 @@ Widget statusItem({required String status}) {
   );
 }
 
-Widget order(context,
-    {required String subject,
-    required String content,
-    required String time,
-    required String status}) {
+Widget order(context, OrderModel order) {
   return InkWell(
     onTap: () {
       Navigator.of(context).push(CupertinoPageRoute(
-          builder: (context) => const OrderPage(), fullscreenDialog: true));
+          builder: (context) => OrderPage(order: order),
+          fullscreenDialog: true));
     },
     child: ListTile(
       isThreeLine: true,
       leading: Icon(UIcons.regularRounded.car_side),
       trailing: Icon(UIcons.regularRounded.angle_small_left),
       title: Text(
-        "$subject - $time",
+        "${order.service.label} - ${timeAgo(order.createdAt)}",
         style: Theme.of(context).textTheme.titleMedium,
       ),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [Text(content), gap(height: 2), statusItem(status: status)],
+        children: [
+          Text(order.description != ""
+              ? order.description
+              : order.service.description),
+          gap(height: 2),
+          statusItem(status: order.status)
+        ],
       ),
     ),
   );
@@ -374,10 +354,12 @@ Widget profile(context) {
         decoration: BoxDecoration(
             color: AppColors.primaryColor,
             borderRadius: BorderRadius.circular(100)),
-        child: const Center(
+        child: Center(
           child: Text(
-            "ع",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            userProfile.name.length > 2
+                ? userProfile.name.substring(0, 2)
+                : userProfile.name,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),
       ),
@@ -390,14 +372,16 @@ Widget profile(context) {
       ),
       title: const Text("مساء الخير"),
       subtitle: Text(
-        "عبد الرحمن",
+        userProfile.name,
         style: Theme.of(context).textTheme.titleLarge,
+        overflow: TextOverflow.ellipsis,
       ));
 }
 
-Widget moreItem(context, {required String label, required IconData icon}) {
+Widget moreItem(context,
+    {required String label, required IconData icon, void Function()? onTap}) {
   return InkWell(
-    onTap: () {},
+    onTap: onTap,
     child: ListTile(
         leading: Icon(icon, size: 20),
         title: Text(label, style: Theme.of(context).textTheme.bodyLarge)),
@@ -434,7 +418,7 @@ Widget grantPermission(context) {
   );
 }
 
-Widget orderPathIndicator(context) {
+Widget orderPathIndicator(context, List addresses) {
   return OutlinedButton(
       onPressed: () {
         Navigator.of(context).push(CupertinoPageRoute(
@@ -450,9 +434,7 @@ Widget orderPathIndicator(context) {
           children: [
             Expanded(
               child: heading(context,
-                  title: "عنوان الإستلام",
-                  subTitle: "6566، 4155، التلال، حفر الباطن 39957، الس...",
-                  small: true),
+                  title: "عنوان الإستلام", subTitle: addresses[0], small: true),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -463,20 +445,20 @@ Widget orderPathIndicator(context) {
             ),
             Expanded(
               child: heading(context,
-                  title: "عنوان التوصيل",
-                  subTitle: "2067، 7870، المروج، حفر الباطن 39957، فيح...",
-                  small: true),
+                  title: "عنوان التوصيل", subTitle: addresses[1], small: true),
             ),
           ],
         ),
       ));
 }
 
-Widget offer(context) {
+Widget offer(context, OrderModel order, {bool? clickable}) {
   return ElevatedButton(
-    onPressed: () {
-      showOffer(context);
-    },
+    onPressed: clickable != false
+        ? () {
+            showOffer(context, order);
+          }
+        : () {},
     style: ElevatedButton.styleFrom(
         elevation: 0,
         backgroundColor: AppColors.highlight3,
@@ -543,6 +525,24 @@ Widget transaction(context,
       ),
       subtitle: Text(message),
       shape: Border(bottom: BorderSide(width: 1, color: AppColors.highlight3)),
+    ),
+  );
+}
+
+Widget errorOccurred() {
+  return const Center(
+    child: Text(
+      "حصل خطأ",
+      style: TextStyle(fontSize: 16),
+    ),
+  );
+}
+
+Widget noData() {
+  return const Center(
+    child: Text(
+      "لاتوجد معلومات لعرضها",
+      style: TextStyle(fontSize: 16),
     ),
   );
 }

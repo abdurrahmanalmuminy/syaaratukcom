@@ -1,15 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:sayaaratukcom/services/send_order.dart';
 import 'package:sayaaratukcom/styles/colors.dart';
 import 'package:sayaaratukcom/styles/dimentions.dart';
 import 'package:sayaaratukcom/models/services.dart';
 import 'package:sayaaratukcom/widgets/widgets.dart';
-import 'package:sayaaratukcom/screens/order_page.dart';
 import 'package:sayaaratukcom/screens/select_address.dart';
 import 'package:uicons/uicons.dart';
 
 class OrderService extends StatefulWidget {
-  final ServiceItem service;
+  final ServiceModel service;
   const OrderService({super.key, required this.service});
 
   @override
@@ -17,12 +19,27 @@ class OrderService extends StatefulWidget {
 }
 
 class _OrderServiceState extends State<OrderService> {
-  String payment = "الدفع الإلكتروني";
+  TextEditingController description = TextEditingController();
   TextEditingController vehicle = TextEditingController();
+  List origin = [const GeoPoint(0, 0), ""];
+  List destination = [const GeoPoint(0, 0), ""];
+  String paymentOption = "الدفع الإلكتروني";
+
+  bool active = false;
 
   @override
   Widget build(BuildContext context) {
-    final ServiceItem serviceItem = widget.service;
+    void updateButton() {
+      setState(() {
+        active = vehicle.text.isNotEmpty &&
+                origin[0].latitude != 0 &&
+                destination[0].latitude != 0
+            ? true
+            : false;
+      });
+    }
+
+    final ServiceModel serviceItem = widget.service;
     return Scaffold(
       appBar: pageBar(context, title: serviceItem.label),
       body: SingleChildScrollView(
@@ -32,8 +49,6 @@ class _OrderServiceState extends State<OrderService> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(serviceItem.description),
-                gap(height: 25),
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   decoration: BoxDecoration(
@@ -42,44 +57,73 @@ class _OrderServiceState extends State<OrderService> {
                   child: Image.asset(serviceItem.asset, height: 100),
                 ),
                 gap(height: 15),
+
                 //form
                 textField(context,
+                    controller: description,
                     hint: "اكتب تفاصيل طلبك",
                     icon: UIcons.regularRounded.align_left,
                     multiline: true),
                 gap(height: 10),
                 textField(context,
-                    hint: "المركبة", icon: UIcons.regularRounded.car_side),
+                    controller: vehicle,
+                    hint: "المركبة",
+                    icon: UIcons.regularRounded.car_side, onChanged: (value) {
+                  updateButton();
+                }),
                 gap(height: 10),
                 choose(
-                    hint: "عنوان الإستلام",
+                    hint:
+                        origin[1] != "" ? origin[1] ?? "--" : "عنوان الإستلام",
                     indicator: "اختر العنوان",
                     icon: UIcons.regularRounded.map_marker,
-                    controller: vehicle,
-                    onPressed: () {
-                      Navigator.of(context).push(CupertinoPageRoute(
-                          builder: (context) => const SelectAddress(address: "عنوان الإستلام"),
-                          fullscreenDialog: true));
+                    onPressed: () async {
+                      final List selectedPoint = await Navigator.of(context)
+                          .push(CupertinoPageRoute(
+                              builder: (context) => const SelectAddress(
+                                  address: "عنوان الإستلام"),
+                              fullscreenDialog: true));
+                      if (!context.mounted) return;
+                      if (selectedPoint[0] != null) {
+                        setState(() {
+                          origin[0] = GeoPoint(selectedPoint[0].latitude,
+                              selectedPoint[0].longitude);
+                          origin[1] = selectedPoint[1];
+                          updateButton();
+                        });
+                      }
                     }),
                 gap(height: 10),
                 choose(
-                    hint: "عنوان التوصيل",
+                    hint: destination[1] != ""
+                        ? destination[1] ?? "--"
+                        : "عنوان التوصيل",
                     indicator: "اختر العنوان",
                     icon: UIcons.regularRounded.flag,
-                    controller: vehicle,
-                    onPressed: () {
-                      Navigator.of(context).push(CupertinoPageRoute(
-                          builder: (context) => const SelectAddress(address: "عنوان التوصيل"),
-                          fullscreenDialog: true));
+                    onPressed: () async {
+                      final List selectedPoint = await Navigator.of(context)
+                          .push(CupertinoPageRoute(
+                              builder: (context) =>
+                                  const SelectAddress(address: "عنوان التوصيل"),
+                              fullscreenDialog: true));
+                      if (!context.mounted) return;
+                      if (selectedPoint[0] != null) {
+                        setState(() {
+                          destination[0] = GeoPoint(selectedPoint[0].latitude,
+                              selectedPoint[0].longitude);
+                          destination[1] = selectedPoint[1];
+                          updateButton();
+                        });
+                      }
                     }),
                 gap(height: 10),
                 dropDown(
-                    value: payment,
+                    value: paymentOption,
                     icon: UIcons.regularRounded.wallet,
                     items: ["الدفع الإلكتروني", "الدفع نقداً"],
                     onChanged: (String? newValue) {
                       setState(() {
-                        payment = newValue!;
+                        paymentOption = newValue!;
                       });
                     }),
               ],
@@ -99,10 +143,20 @@ class _OrderServiceState extends State<OrderService> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                primaryButton(context, "التالي", onPressed: (){
-                  Navigator.of(context).pushReplacement(CupertinoPageRoute(
-                              builder: (context) => const OrderPage()));
-                }),
+                primaryButton(context, "التالي",
+                    onPressed: !active
+                        ? null
+                        : () {
+                            sendOrder(context,
+                                service: serviceItem,
+                                description: description.text,
+                                vehicle: vehicle.text,
+                                originPoint: origin[0],
+                                originAddress: origin[1],
+                                destinationPoint: destination[0],
+                                destinationAddress: destination[1],
+                                paymentOption: paymentOption);
+                          }),
                 optionB(context,
                     text:
                         "بمجرد إرسال طلبك، ستصلك عروض من مزود الخدمات ولن يتم مشاركة معلوماتك الشخصية",

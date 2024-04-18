@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sayaaratukcom/services/auth_service.dart';
 import 'package:sayaaratukcom/styles/dimentions.dart';
 import 'package:sayaaratukcom/widgets/widgets.dart';
-import 'package:sayaaratukcom/screens/authentication/verification.dart';
 import 'package:uicons/uicons.dart';
 
 class Phone extends StatefulWidget {
@@ -55,6 +54,8 @@ class _PhoneState extends State<Phone> {
                           type: TextInputType.phone,
                           icon: UIcons.regularRounded.smartphone,
                           focus: true,
+                          direction: TextDirection.ltr,
+                          align: TextAlign.right,
                           onChanged: (value) {
                         updateButton();
                       }),
@@ -67,8 +68,7 @@ class _PhoneState extends State<Phone> {
                   onPressed: !active
                       ? null
                       : () {
-                          Navigator.of(context).push(CupertinoPageRoute(
-                              builder: (context) => const Verification()));
+                          verifyPhoneNumber(context, phone.text);
                         }),
               optionB(context,
                   text:

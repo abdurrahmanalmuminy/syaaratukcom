@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sayaaratukcom/models/order_model.dart';
 import 'package:sayaaratukcom/widgets/widgets.dart';
 
 class Orders extends StatefulWidget {
@@ -15,12 +16,34 @@ class _OrdersState extends State<Orders> {
       appBar: appBar(context, title: "الطلبات"),
       body: Column(
         children: [
-          order(context,
-              subject: "سطحة - #2799",
-              content:
-                  "تعطلت سيارتي في طريق سفر وأحتاج نقلها إلى ورشة باستخدام سطحة",
-              time: "قبل 9 د",
-              status: "في إنتظار العروض"),
+          StreamBuilder<List<OrderModel>>(
+                stream: streamOrders(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return errorOccurred();
+                  } else if (snapshot.hasData) {
+                    final cartItems = snapshot.data!;
+                    if (cartItems.isNotEmpty) {
+                      final cartItemsList = cartItems;
+                      return Expanded(
+                        child: ListView(
+                          shrinkWrap: true,
+                          children: cartItemsList
+                              .map((orderData) =>
+                                  order(context, orderData))
+                              .toList(),
+                        ),
+                      );
+                    } else {
+                      return noData();
+                    }
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              ),
         ],
       ),
     );

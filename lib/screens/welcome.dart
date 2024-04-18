@@ -23,60 +23,63 @@ class _WelcomeState extends State<Welcome> {
       systemNavigationBarColor: Colors.white,
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
-    return Scaffold(
-      backgroundColor: AppColors.primaryColor,
-      body: Column(
-        children: [
-          Expanded(
-              child: Center(
-                  child: SafeArea(
-                      bottom: false,
-                      child:
-                          Image.asset("assets/images/logo.png", width: 150)))),
-          Container(
-            padding: Dimensions.bodyPadding,
-            color: Colors.white,
-            child: SafeArea(
-              top: false,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Hero(
-                    tag: "phone_field",
-                    child: Material(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          heading(context,
-                              title: "تسجيل الدخول",
-                              subTitle:
-                                  "لتسجيل الدخول أو إنشاء حساب، أدخل رقم هاتفك"),
-                          textField(context,
-                              hint: "رقم الهاتف (..55)",
-                              icon: UIcons.regularRounded.smartphone,
-                              readOnly: true, onTap: () {
-                            Navigator.push(
-                              context,
-                              PageRouteBuilder(
-                                  pageBuilder: (context, animation,
-                                          secondaryAnimation) =>
-                                      const Phone(),
-                                  fullscreenDialog: true),
-                            );
-                          }),
-                        ],
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        backgroundColor: AppColors.primaryColor,
+        body: Column(
+          children: [
+            Expanded(
+                child: Center(
+                    child: SafeArea(
+                        bottom: false,
+                        child:
+                            Image.asset("assets/images/logo.png", width: 150)))),
+            Container(
+              padding: Dimensions.bodyPadding,
+              color: Colors.white,
+              child: SafeArea(
+                top: false,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Hero(
+                      tag: "phone_field",
+                      child: Material(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            heading(context,
+                                title: "تسجيل الدخول",
+                                subTitle:
+                                    "لتسجيل الدخول أو إنشاء حساب، أدخل رقم هاتفك"),
+                            textField(context,
+                                hint: "رقم الهاتف (..55)",
+                                icon: UIcons.regularRounded.smartphone,
+                                readOnly: true, onTap: () {
+                              Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                    pageBuilder: (context, animation,
+                                            secondaryAnimation) =>
+                                        const Phone(),
+                                    fullscreenDialog: true),
+                              );
+                            }),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  gap(height: 15),
-                  optionB(context,
-                      text: "بتسجيل الدخول إلى حسابك أو إنشاء حساب جديد، فأنت توافق على ",
-                      option: "سياسة الإستخدام و سياسة الخصوصية")
-                ],
+                    gap(height: 15),
+                    optionB(context,
+                        text: "بتسجيل الدخول إلى حسابك أو إنشاء حساب جديد، فأنت توافق على ",
+                        option: "سياسة الإستخدام و سياسة الخصوصية")
+                  ],
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

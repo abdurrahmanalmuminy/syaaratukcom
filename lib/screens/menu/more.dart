@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sayaaratukcom/services/auth_service.dart';
 import 'package:sayaaratukcom/widgets/widgets.dart';
 import 'package:uicons/uicons.dart';
 
@@ -29,11 +30,20 @@ class _MoreState extends State<More> {
           moreItem(context,
               label: "الدعم الفني", icon: UIcons.regularRounded.headset),
           moreItem(context,
-              label: "تسجيل الخروج", icon: UIcons.regularRounded.sign_out_alt),
+              label: "تسجيل الخروج",
+              icon: UIcons.regularRounded.sign_out_alt, onTap: () {
+            signOut(context);
+          }),
           moreItem(context,
               label: "حذف الحساب", icon: UIcons.regularRounded.trash),
           const Expanded(child: SizedBox()),
-          TextButton(child: const Text("الكون الجديد لتقنية المعلومات", style: TextStyle(color: Colors.blue),), onPressed: (){},),
+          TextButton(
+            child: const Text(
+              "الكون الجديد لتقنية المعلومات",
+              style: TextStyle(color: Colors.blue),
+            ),
+            onPressed: () {},
+          ),
           gap(height: 15),
         ],
       ),
