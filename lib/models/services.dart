@@ -6,7 +6,8 @@ class ServiceModel {
   ServiceModel(
       {required this.label, required this.description, required this.asset});
 
-  Map<String, dynamic> toJson() => {'label': label, 'asset': asset};
+  Map<String, dynamic> toJson() =>
+      {'label': label, 'asset': asset, 'description': description};
 
   static ServiceModel fromJson(Map<String, dynamic> json) => ServiceModel(
         label: json["label"],

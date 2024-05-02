@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sayaaratukcom/models/offer_model.dart';
 import 'package:sayaaratukcom/models/order_model.dart';
 import 'package:sayaaratukcom/styles/dimentions.dart';
 import 'package:sayaaratukcom/utils/format_timestamp.dart';
@@ -43,7 +44,36 @@ class _OrderPageState extends State<OrderPage> {
             gap(height: 25),
             section(context, title: "العروض", noPadding: true),
             gap(height: 10),
-            offer(context, order)
+
+            //offers
+            StreamBuilder<List<OfferModel>>(
+                stream: streamAllOffers(order.id),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return errorOccurred();
+                  } else if (snapshot.hasData) {
+                    final offerItems = snapshot.data!;
+                    if (offerItems.isNotEmpty) {
+                      final offerItemsList = offerItems;
+                      return Expanded(
+                        child: ListView(
+                          shrinkWrap: true,
+                          children: offerItemsList
+                              .map((offerData) =>
+                                  offer(context,  offerData, order: order))
+                              .toList(),
+                        ),
+                      );
+                    } else {
+                      return noData();
+                    }
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              ),
           ],
         ),
       ),

@@ -1,8 +1,12 @@
 import 'package:app_settings/app_settings.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sayaaratukcom/models/notification_model.dart';
+import 'package:sayaaratukcom/models/offer_model.dart';
 import 'package:sayaaratukcom/models/order_model.dart';
 import 'package:sayaaratukcom/models/user_model.dart';
+import 'package:sayaaratukcom/screens/wallet.dart';
 import 'package:sayaaratukcom/styles/colors.dart';
 import 'package:sayaaratukcom/models/services.dart';
 import 'package:sayaaratukcom/screens/offer.dart';
@@ -103,7 +107,7 @@ Widget dropDown(
     {required String value,
     required IconData icon,
     required List<String> items,
-    onChanged}) {
+    Function(String?)? onChanged}) {
   return DropdownButtonFormField(
     value: value,
     iconSize: 0,
@@ -330,45 +334,47 @@ Widget order(context, OrderModel order) {
   );
 }
 
-Widget notification(context,
-    {required String subject, required String message, required String time}) {
+Widget notification(context, NotificationModel notification) {
   return InkWell(
     onTap: () {},
     child: ListTile(
       isThreeLine: true,
       trailing: Icon(UIcons.regularRounded.angle_small_left),
       title: Text(
-        "$subject - $time",
+        "${notification.title} - ${timeAgo(notification.sentAt)}",
         style: Theme.of(context).textTheme.titleMedium,
       ),
-      subtitle: Text(message),
+      subtitle: Text(notification.content),
     ),
   );
 }
 
-Widget profile(context) {
+Widget profile(context, void Function() uploadAvatar) {
   return ListTile(
-      leading: Container(
-        width: 55,
-        height: 55,
-        decoration: BoxDecoration(
-            color: AppColors.primaryColor,
-            borderRadius: BorderRadius.circular(100)),
-        child: Center(
-          child: Text(
-            userProfile.name.length > 2
-                ? userProfile.name.substring(0, 2)
-                : userProfile.name,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-        ),
-      ),
+      leading: userProfile.avatarUrl != ""
+          ? avatar(context, uploadAvatar)
+          : InkWell(
+              onTap: uploadAvatar,
+              child: Container(
+                width: 55,
+                height: 55,
+                decoration: BoxDecoration(
+                    color: AppColors.primaryColor,
+                    borderRadius: BorderRadius.circular(100)),
+                child: Icon(
+                  UIcons.regularRounded.arrow_up_from_square,
+                  color: Colors.black,
+                ),
+              ),
+            ),
       trailing: TextButton(
         child: Icon(
           UIcons.regularRounded.wallet,
           color: Colors.black,
         ),
-        onPressed: () {},
+        onPressed: () {
+          showWallet(context);
+        },
       ),
       title: const Text("مساء الخير"),
       subtitle: Text(
@@ -452,11 +458,12 @@ Widget orderPathIndicator(context, List addresses) {
       ));
 }
 
-Widget offer(context, OrderModel order, {bool? clickable}) {
+Widget offer(context, OfferModel offer,
+    {bool? clickable, required OrderModel order}) {
   return ElevatedButton(
     onPressed: clickable != false
         ? () {
-            showOffer(context, order);
+            showOffer(context, offer, order);
           }
         : () {},
     style: ElevatedButton.styleFrom(
@@ -479,25 +486,17 @@ Widget offer(context, OrderModel order, {bool? clickable}) {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("أحمد محسن",
-                style: TextStyle(
+            Text(offer.serviceProvider[0],
+                style: const TextStyle(
                     fontSize: 19,
                     color: Colors.black,
                     fontWeight: FontWeight.w600)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(UIcons.solidRounded.marker, color: Colors.black, size: 15),
-                gap(width: 2),
-                Text("8.2", style: Theme.of(context).textTheme.titleMedium),
-              ],
-            )
           ],
         ),
         const Expanded(child: SizedBox()),
         RichText(
           text: TextSpan(
-              text: "112.47",
+              text: offer.price.toString(),
               style: Theme.of(context).textTheme.titleLarge,
               children: <TextSpan>[
                 TextSpan(
@@ -543,6 +542,42 @@ Widget noData() {
     child: Text(
       "لاتوجد معلومات لعرضها",
       style: TextStyle(fontSize: 16),
+    ),
+  );
+}
+
+Widget avatar(context, void Function() uploadAvatar, {double? size}) {
+  return InkWell(
+    onTap: uploadAvatar,
+    child: CachedNetworkImage(
+      width: size ?? 55,
+      height: size ?? 55,
+      imageUrl: userProfile.avatarUrl,
+      imageBuilder: (context, imageProvioder) {
+        return Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(100),
+            image: DecorationImage(
+                image: imageProvioder,
+                fit: BoxFit.cover,
+                alignment: Alignment.topCenter),
+          ),
+        );
+      },
+      placeholder: (context, url) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+      errorWidget: (context, url, error) => Container(
+        width: size ?? 55,
+        height: size ?? 55,
+        decoration: BoxDecoration(
+            color: AppColors.primaryColor,
+            borderRadius: BorderRadius.circular(100)),
+        child: Icon(
+          UIcons.regularRounded.picture,
+          color: Colors.black,
+        ),
+      ),
     ),
   );
 }

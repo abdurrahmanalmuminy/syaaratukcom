@@ -149,7 +149,7 @@ class _SelectAddressState extends State<SelectAddress> {
                         markers: {
                           Marker(
                               markerId: const MarkerId("userLocation"),
-                              position: selectedPoint ?? const LatLng(0, 0))
+                              position: selectedPoint ?? const LatLng(0, 0)),
                         },
                       ),
                     )),

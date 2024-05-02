@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sayaaratukcom/models/notification_model.dart';
 import 'package:sayaaratukcom/widgets/widgets.dart';
 
 class Notifications extends StatefulWidget {
@@ -15,11 +16,33 @@ class _NotificationsState extends State<Notifications> {
       appBar: appBar(context, title: "الإشعارات"),
       body: Column(
         children: [
-          notification(context,
-              subject: "سطحة - #2799",
-              message:
-                  "تعطلت سيارتي في طريق سفر وأحتاج نقلها إلى ورشة باستخدام سطحة",
-              time: "قبل 9 د"),
+          StreamBuilder<List<NotificationModel>>(
+            stream: streamNotification(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return errorOccurred();
+              } else if (snapshot.hasData) {
+                final notifications = snapshot.data!;
+                if (notifications.isNotEmpty) {
+                  final notificationsList = notifications;
+                  return Expanded(
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: notificationsList
+                          .map((notificationsData) => notification(context, notificationsData))
+                          .toList(),
+                    ),
+                  );
+                } else {
+                  return noData();
+                }
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          )
         ],
       ),
     );

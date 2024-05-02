@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:sayaaratukcom/models/order_model.dart';
 import 'package:sayaaratukcom/widgets/widgets.dart';
@@ -20,6 +22,7 @@ class _OrdersState extends State<Orders> {
                 stream: streamOrders(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
+                    log(snapshot.error.toString());
                     return errorOccurred();
                   } else if (snapshot.hasData) {
                     final cartItems = snapshot.data!;

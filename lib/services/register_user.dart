@@ -21,6 +21,7 @@ Future registerUser(
       uid: uid,
       phone: phone,
       name: name,
+      avatarUrl: "",
       email: email,
       gender: gender,
       balance: 0.0);
@@ -72,6 +73,7 @@ Future<bool> initUser() async {
           phone: userData['phone'],
           uid: userData['uid'],
           name: userData['name'],
+          avatarUrl: userData['avatarUrl'],
           email: userData['email'],
           gender: userData['gender'],
           balance: userData['balance'].toDouble());

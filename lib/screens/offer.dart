@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:sayaaratukcom/models/offer_model.dart';
 import 'package:sayaaratukcom/models/order_model.dart';
 import 'package:sayaaratukcom/widgets/widgets.dart';
 
-void showOffer(context, OrderModel order) {
+void showOffer(context, OfferModel offerData, OrderModel order) {
   showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -22,7 +23,7 @@ void showOffer(context, OrderModel order) {
                     const Text(
                         "سأقوم بنقل سيارتك بإستخدام السطحة بشكل احترافي وسريع، مقابل مبلغ 112 ريال"),
                     gap(height: 10),
-                    offer(context, order, clickable: false),
+                    offer(context, offerData, clickable: false, order: order),
                     gap(height: 10),
                     orderPathIndicator(context, [order.originAddress, order.destinationAddress]),
                     const Expanded(child: SizedBox()),
