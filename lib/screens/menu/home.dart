@@ -38,7 +38,7 @@ class _HomeState extends State<Home> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text("مساء الخير"),
+              const Text("مرحباً"),
               Text(
                 userProfile.name,
                 style: Theme.of(context).textTheme.titleLarge,

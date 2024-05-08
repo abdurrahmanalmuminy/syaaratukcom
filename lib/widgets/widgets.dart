@@ -376,7 +376,7 @@ Widget profile(context, void Function() uploadAvatar) {
           showWallet(context);
         },
       ),
-      title: const Text("مساء الخير"),
+      title: const Text("مرحباً"),
       subtitle: Text(
         userProfile.name,
         style: Theme.of(context).textTheme.titleLarge,

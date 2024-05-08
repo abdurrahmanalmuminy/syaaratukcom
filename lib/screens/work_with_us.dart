@@ -12,8 +12,9 @@ class WorkWithUs extends StatefulWidget {
 
 class _WorkWithUsState extends State<WorkWithUs> {
   TextEditingController name = TextEditingController();
+  TextEditingController identity = TextEditingController();
   TextEditingController phone = TextEditingController();
-  TextEditingController vehicle = TextEditingController();
+  String selectedService = "فحص";
   bool active = false;
 
   @override
@@ -48,10 +49,21 @@ class _WorkWithUsState extends State<WorkWithUs> {
                         subTitle:
                             "لتقديم طلب العمل معنا، أدخل المعلومات التالية"),
                     textField(context,
-                        controller: phone,
+                        controller: name,
                         hint: "الإسم الثلاثي",
                         type: TextInputType.text,
                         icon: UIcons.regularRounded.user,
+                        focus: true,
+                        direction: TextDirection.ltr,
+                        align: TextAlign.right, onChanged: (value) {
+                      updateButton();
+                    }),
+                    gap(height: 10),
+                    textField(context,
+                        controller: identity,
+                        hint: "رقم الهوية",
+                        type: TextInputType.number,
+                        icon: UIcons.regularRounded.id_badge,
                         focus: true,
                         direction: TextDirection.ltr,
                         align: TextAlign.right, onChanged: (value) {
@@ -69,24 +81,30 @@ class _WorkWithUsState extends State<WorkWithUs> {
                       updateButton();
                     }),
                     gap(height: 10),
-                    textField(context,
-                        controller: vehicle,
-                        hint: "المركبة",
+                    dropDown(
+                        value: selectedService,
                         icon: UIcons.regularRounded.car_side,
-                        onChanged: (value) {
-                      updateButton();
-                    }),
+                        items: [
+                          "فحص",
+                          "إطارات",
+                          "سطحة",
+                          "المفاتيح",
+                          "غسيل",
+                          "ورشة"
+                        ], onChanged: (value){
+                          setState(() {
+                            selectedService = value!;
+                          });
+                        })
                   ],
                 ),
               ),
               const Expanded(child: SizedBox()),
               primaryButton(context, "قدم الطلب",
-                  onPressed: !active
-                      ? null
-                      : () {}),
+                  onPressed: !active ? null : () {}),
               optionB(context,
-                  text: "بتقديم طلبك للعمل معنا فأنت تقر وتوافق على ",
-                  option: "سياسة الإستخدام و سياسة الخصوصية")
+                  text: "للعمل معنا، يجب امتلاك رخصة واستمارة سارية المفعول وامتلاك سجل تجاري للورشات المتنقلة",
+                  option: "")
             ],
           ),
         ),
