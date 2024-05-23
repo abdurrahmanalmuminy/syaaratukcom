@@ -17,7 +17,7 @@ import 'package:sayaaratukcom/utils/format_timestamp.dart';
 import 'package:uicons/uicons.dart';
 
 Widget primaryButton(context, text,
-    {void Function()? onPressed, backgroundColor}) {
+    {void Function()? onPressed, backgroundColor, bool? loading}) {
   return SizedBox(
     height: 50,
     child: ElevatedButton(
@@ -31,11 +31,15 @@ Widget primaryButton(context, text,
         ),
       ),
       child: Center(
-        child: Text(
-          text,
-          style: const TextStyle(
-              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
-        ),
+        child: loading == true
+            ? const CircularProgressIndicator(color: Colors.black)
+            : Text(
+                text,
+                style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
+              ),
       ),
     ),
   );
@@ -297,7 +301,11 @@ Widget statusItem({required String status}) {
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
     decoration: BoxDecoration(
-        color: const Color(0xFF00A911),
+        color: status == "ملغي"
+            ? AppColors.red
+            : status == "في إنتظار العروض"
+                ? Colors.yellow.shade700
+                : const Color(0xFF00A911),
         borderRadius: BorderRadius.circular(100)),
     child: Text(status,
         style: const TextStyle(
@@ -320,16 +328,20 @@ Widget order(context, OrderModel order) {
         "${order.service.label} - ${timeAgo(order.createdAt)}",
         style: Theme.of(context).textTheme.titleMedium,
       ),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(order.description != ""
-              ? order.description
-              : order.service.description),
-          gap(height: 2),
-          statusItem(status: order.status)
-        ],
-      ),
+      subtitle: order.description != ""
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(order.description),
+                gap(height: 2),
+                statusItem(status: order.status)
+              ],
+            )
+          : Row(
+              children: [
+                statusItem(status: order.status),
+              ],
+            ),
     ),
   );
 }
@@ -385,12 +397,16 @@ Widget profile(context, void Function() uploadAvatar) {
 }
 
 Widget moreItem(context,
-    {required String label, required IconData icon, void Function()? onTap}) {
+    {required String label,
+    required IconData icon,
+    void Function()? onTap,
+    Color? color}) {
   return InkWell(
     onTap: onTap,
     child: ListTile(
-        leading: Icon(icon, size: 20),
-        title: Text(label, style: Theme.of(context).textTheme.bodyLarge)),
+        leading: Icon(icon, size: 20, color: color),
+        title: Text(label),
+        textColor: color),
   );
 }
 
@@ -475,18 +491,30 @@ Widget offer(context, OfferModel offer,
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
     child: Row(
       children: [
-        Container(
-          height: 50,
+        CachedNetworkImage(
           width: 50,
-          decoration: BoxDecoration(
-              color: AppColors.highlight2,
-              borderRadius: BorderRadius.circular(100)),
+          height: 50,
+          imageUrl: offer.serviceProvider[2],
+          imageBuilder: (context, imageProvioder) {
+            return Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                image: DecorationImage(
+                    image: imageProvioder,
+                    fit: BoxFit.cover,
+                    alignment: Alignment.topCenter),
+              ),
+            );
+          },
+          placeholder: (context, url) => const Center(
+            child: CircularProgressIndicator(),
+          ),
         ),
         gap(width: 10),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(offer.serviceProvider[0],
+            Text(offer.serviceProvider[1],
                 style: const TextStyle(
                     fontSize: 19,
                     color: Colors.black,

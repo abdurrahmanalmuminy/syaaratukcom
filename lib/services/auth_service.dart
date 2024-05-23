@@ -6,15 +6,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sayaaratukcom/screens/authentication/profile.dart';
 import 'package:sayaaratukcom/screens/authentication/verification.dart';
+import 'package:sayaaratukcom/screens/menu/navigation.dart';
 import 'package:sayaaratukcom/screens/welcome.dart';
 import 'package:sayaaratukcom/services/register_user.dart';
-import 'package:sayaaratukcom/widgets/progress_dialog.dart';
 import 'package:sayaaratukcom/utils/translate_error.dart';
 import 'package:sayaaratukcom/widgets/show_dialog.dart';
 import 'package:sayaaratukcom/widgets/snack_bar.dart';
 
 void verifyPhoneNumber(BuildContext context, String phone) async {
-  Function closeProgressDialog = progressDialog(context);
   try {
     FirebaseAuth auth = FirebaseAuth.instance;
     await auth.verifyPhoneNumber(
@@ -38,12 +37,10 @@ void verifyPhoneNumber(BuildContext context, String phone) async {
     log(e.toString());
     snackBar(context, translateError(e.toString()));
   } finally {
-    closeProgressDialog();
   }
 }
 
 void verifyOtp(BuildContext context, verificationId, smsCode) async {
-  Function closeProgressDialog = progressDialog(context);
   try {
     FirebaseAuth auth = FirebaseAuth.instance;
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
@@ -52,17 +49,14 @@ void verifyOtp(BuildContext context, verificationId, smsCode) async {
     );
     await auth.signInWithCredential(credential);
     bool registered = await initUser();
-    closeProgressDialog();
     if (registered) {
       Navigator.of(context).push(CupertinoPageRoute(
-          builder: (context) => const Navigator(), fullscreenDialog: true));
+          builder: (context) => const Navigation(), fullscreenDialog: true));
     } else {
-      closeProgressDialog();
       Navigator.of(context)
           .push(CupertinoPageRoute(builder: (context) => const Profile()));
     }
   } catch (e) {
-    closeProgressDialog();
     log(e.toString());
     snackBar(context, translateError(e.toString()));
   }
@@ -72,17 +66,14 @@ void signOut(context) async {
   showAlertDialog(context,
       title: "تسجيل الخروج",
       content: "سيتم تسجيل الخروج بناءً على طلبك", onOk: () async {
-    Function closeProgressDialog = progressDialog(context);
     try {
       FirebaseAuth auth = FirebaseAuth.instance;
       await auth.signOut();
-      closeProgressDialog();
       Navigator.of(context).pushReplacement(CupertinoPageRoute(
         builder: (context) => const Welcome(),
         fullscreenDialog: true,
       ));
     } catch (e) {
-      closeProgressDialog();
       log(e.toString());
       snackBar(context, translateError(e.toString()));
     }

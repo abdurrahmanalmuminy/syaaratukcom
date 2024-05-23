@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:sayaaratukcom/models/user_model.dart';
 import 'package:sayaaratukcom/screens/menu/navigation.dart';
 import 'package:sayaaratukcom/utils/translate_error.dart';
-import 'package:sayaaratukcom/widgets/progress_dialog.dart';
 import 'package:sayaaratukcom/widgets/snack_bar.dart';
 
 Future registerUser(
@@ -35,7 +34,6 @@ void signUp(context,
     {required String name,
     required String email,
     required String gender}) async {
-  Function closeProgressDialog = progressDialog(context);
   try {
     User user = FirebaseAuth.instance.currentUser!;
     registerUser(
@@ -46,12 +44,10 @@ void signUp(context,
         gender: gender);
     bool registered = await initUser();
     if (registered) {
-      closeProgressDialog();
       Navigator.of(context)
           .push(CupertinoPageRoute(builder: (context) => const Navigation()));
     }
   } catch (e) {
-    closeProgressDialog();
     log(e.toString());
     snackBar(context, translateError(e.toString()));
   }

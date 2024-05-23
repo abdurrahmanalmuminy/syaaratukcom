@@ -14,6 +14,7 @@ class Phone extends StatefulWidget {
 class _PhoneState extends State<Phone> {
   TextEditingController phone = TextEditingController();
   bool active = false;
+  bool _loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +56,7 @@ class _PhoneState extends State<Phone> {
                           icon: UIcons.regularRounded.smartphone,
                           focus: true,
                           direction: TextDirection.ltr,
-                          align: TextAlign.right,
-                          onChanged: (value) {
+                          align: TextAlign.right, onChanged: (value) {
                         updateButton();
                       }),
                     ],
@@ -65,9 +65,13 @@ class _PhoneState extends State<Phone> {
               ),
               const Expanded(child: SizedBox()),
               primaryButton(context, "التحقق",
-                  onPressed: !active
+                  loading: _loading,
+                  onPressed: !active || _loading == true
                       ? null
                       : () {
+                          setState(() {
+                            _loading = true;
+                          });
                           verifyPhoneNumber(context, phone.text);
                         }),
               optionB(context,

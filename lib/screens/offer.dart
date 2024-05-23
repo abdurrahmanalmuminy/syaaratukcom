@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sayaaratukcom/models/offer_model.dart';
 import 'package:sayaaratukcom/models/order_model.dart';
+import 'package:sayaaratukcom/services/send_order.dart';
 import 'package:sayaaratukcom/widgets/widgets.dart';
 
 void showOffer(context, OfferModel offerData, OrderModel order) {
@@ -20,16 +21,15 @@ void showOffer(context, OfferModel offerData, OrderModel order) {
                 padding: const EdgeInsets.only(right: 15, left: 15),
                 child: Column(
                   children: [
-                    const Text(
-                        "سأقوم بنقل سيارتك بإستخدام السطحة بشكل احترافي وسريع، مقابل مبلغ 112 ريال"),
+                    offerData.description != "" ?Text(offerData.description) : const SizedBox(),
                     gap(height: 10),
                     offer(context, offerData, clickable: false, order: order),
                     gap(height: 10),
-                    orderPathIndicator(context, [order.originAddress, order.destinationAddress]),
+                    orderPathIndicator(context,
+                        [order.originAddress, order.destinationAddress]),
                     const Expanded(child: SizedBox()),
-                    primaryButton(context, "قبول العرض", onPressed: (){
-                      Navigator.pop(context);
-                      Navigator.pop(context);
+                    primaryButton(context, "قبول العرض", onPressed: () {
+                      acceptOffer(context, order.id, offerData.offerId);
                     })
                   ],
                 ),

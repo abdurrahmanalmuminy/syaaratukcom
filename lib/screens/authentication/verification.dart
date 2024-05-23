@@ -17,6 +17,7 @@ class Verification extends StatefulWidget {
 class _VerificationState extends State<Verification> {
   TextEditingController smsCode = TextEditingController();
   bool active = false;
+  bool _loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -82,9 +83,13 @@ class _VerificationState extends State<Verification> {
               ),
               const Expanded(child: SizedBox()),
               primaryButton(context, "التالي",
-                  onPressed: !active
+                  loading: _loading,
+                  onPressed: !active || _loading == true
                       ? null
                       : () {
+                          setState(() {
+                            _loading = true;
+                          });
                           verifyOtp(context, widget.verificationId, smsCode.text);
                         }),
               optionB(context,  

@@ -7,7 +7,6 @@ import 'package:sayaaratukcom/models/services.dart';
 import 'package:sayaaratukcom/models/user_model.dart';
 import 'package:sayaaratukcom/screens/order_page.dart';
 import 'package:sayaaratukcom/utils/translate_error.dart';
-import 'package:sayaaratukcom/widgets/progress_dialog.dart';
 import 'package:sayaaratukcom/widgets/snack_bar.dart';
 
 Future sendOrder(context,
@@ -21,10 +20,9 @@ Future sendOrder(context,
     required String paymentOption}) async {
   final orderDoc = FirebaseFirestore.instance.collection("orders").doc();
 
-  Function closeProgressDialog = progressDialog(context);
-
   final order = OrderModel(
       id: orderDoc.id,
+      offerId: "",
       service: service,
       user: userProfile.uid,
       createdAt: Timestamp.now(),
@@ -42,11 +40,39 @@ Future sendOrder(context,
 
     await orderDoc.set(json);
   } catch (e) {
-    closeProgressDialog();
     log(e.toString());
     snackBar(context, translateError(e.toString()));
   }
   Navigator.pop(context);
-  Navigator.of(context).pushReplacement(
-      CupertinoPageRoute(builder: (context) => OrderPage(order: order)));
+  Navigator.of(context)
+      .push(CupertinoPageRoute(builder: (context) => OrderPage(order: order)));
+}
+
+Future cancelOrder(context, String orderId, String offerId) async {
+  final orderDoc = FirebaseFirestore.instance.collection("orders").doc(orderId);
+  final offerDoc = FirebaseFirestore.instance.collection("offers").doc(offerId);
+  try {
+    await orderDoc.update({"status": "ملغي"});
+    await offerDoc.update({"status": "تم إلغاء الطلب"});
+    Navigator.pop(context);
+    Navigator.pop(context);
+  } catch (e) {
+    log(e.toString());
+    snackBar(context, translateError(e.toString()));
+  }
+}
+
+Future acceptOffer(context, String orderId, String offerId) async {
+  final orderDoc = FirebaseFirestore.instance.collection("orders").doc(orderId);
+  final offerDoc = FirebaseFirestore.instance.collection("offers").doc(offerId);
+  try {
+    await orderDoc.update({"status": "جاري التنفيذ"});
+    await orderDoc.update({"offerId": offerId});
+    await offerDoc.update({"status": "تم القبول"});
+    Navigator.pop(context);
+    Navigator.pop(context);
+  } catch (e) {
+    log(e.toString());
+    snackBar(context, translateError(e.toString()));
+  }
 }

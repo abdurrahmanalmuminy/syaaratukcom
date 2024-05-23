@@ -4,6 +4,7 @@ import 'package:sayaaratukcom/models/user_model.dart';
 
 class OrderModel {
   String id;
+  String offerId;
   ServiceModel service;
   String user;
   Timestamp createdAt;
@@ -18,6 +19,7 @@ class OrderModel {
 
   OrderModel(
       {required this.id,
+      required this.offerId,
       required this.service,
       required this.user,
       required this.createdAt,
@@ -32,6 +34,7 @@ class OrderModel {
 
   Map<String, dynamic> toJson() => {
         'id': id,
+        'offerId': offerId,
         'service': service.toJson(),
         'user': user,
         'createdAt': createdAt,
@@ -47,6 +50,7 @@ class OrderModel {
 
   static OrderModel fromJson(Map<String, dynamic> json) => OrderModel(
       id: json['id'],
+      offerId: json['offerId'],
       service: ServiceModel.fromJson(json['service']),
       user: json['user'],
       createdAt: json['createdAt'],

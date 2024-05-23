@@ -16,6 +16,7 @@ class _WorkWithUsState extends State<WorkWithUs> {
   TextEditingController phone = TextEditingController();
   String selectedService = "فحص";
   bool active = false;
+  bool _loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +92,8 @@ class _WorkWithUsState extends State<WorkWithUs> {
                           "المفاتيح",
                           "غسيل",
                           "ورشة"
-                        ], onChanged: (value){
+                        ],
+                        onChanged: (value) {
                           setState(() {
                             selectedService = value!;
                           });
@@ -101,9 +103,17 @@ class _WorkWithUsState extends State<WorkWithUs> {
               ),
               const Expanded(child: SizedBox()),
               primaryButton(context, "قدم الطلب",
-                  onPressed: !active ? null : () {}),
+                  loading: _loading,
+                  onPressed: !active || _loading == true
+                      ? null
+                      : () {
+                          setState(() {
+                            _loading = true;
+                          });
+                        }),
               optionB(context,
-                  text: "للعمل معنا، يجب امتلاك رخصة واستمارة سارية المفعول وامتلاك سجل تجاري للورشات المتنقلة",
+                  text:
+                      "للعمل معنا، يجب امتلاك رخصة واستمارة سارية المفعول وامتلاك سجل تجاري للورشات المتنقلة",
                   option: "")
             ],
           ),

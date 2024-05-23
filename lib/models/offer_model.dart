@@ -5,7 +5,7 @@ class OfferModel {
   final String offerId;
   final double price;
   final String description;
-  final List<String> serviceProvider;
+  final List<dynamic> serviceProvider;
   final String status;
   final Timestamp createdAt;
 
@@ -42,6 +42,16 @@ Stream<List<OfferModel>> streamAllOffers(orderId) => FirebaseFirestore.instance
     .collection("offers")
     .orderBy('createdAt', descending: true)
     .where("orderId", isEqualTo: orderId)
+    .where("status", isEqualTo: "في الإنتظار")
+    .snapshots()
+    .map((snapshot) =>
+        snapshot.docs.map((doc) => OfferModel.fromJson(doc.data())).toList());
+
+Stream<List<OfferModel>> streamAcceptedOffer(orderId) => FirebaseFirestore.instance
+    .collection("offers")
+    .orderBy('createdAt', descending: true)
+    .where("orderId", isEqualTo: orderId)
+    .where("status", isEqualTo: "تم القبول")
     .snapshots()
     .map((snapshot) =>
         snapshot.docs.map((doc) => OfferModel.fromJson(doc.data())).toList());

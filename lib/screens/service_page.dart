@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +27,7 @@ class _OrderServiceState extends State<OrderService> {
   String paymentOption = "الدفع الإلكتروني";
 
   bool active = false;
+  bool _loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -77,19 +80,23 @@ class _OrderServiceState extends State<OrderService> {
                     indicator: "اختر العنوان",
                     icon: UIcons.regularRounded.map_marker,
                     onPressed: () async {
-                      final List selectedPoint = await Navigator.of(context)
-                          .push(CupertinoPageRoute(
-                              builder: (context) => const SelectAddress(
-                                  address: "عنوان الإستلام"),
-                              fullscreenDialog: true));
-                      if (!context.mounted) return;
-                      if (selectedPoint[0] != null) {
-                        setState(() {
-                          origin[0] = GeoPoint(selectedPoint[0].latitude,
-                              selectedPoint[0].longitude);
-                          origin[1] = selectedPoint[1];
-                          updateButton();
-                        });
+                      try {
+                        final List selectedPoint = await Navigator.of(context)
+                            .push(CupertinoPageRoute(
+                                builder: (context) => const SelectAddress(
+                                    address: "عنوان الإستلام"),
+                                fullscreenDialog: true));
+                        if (!context.mounted) return;
+                        if (selectedPoint[0] != null) {
+                          setState(() {
+                            origin[0] = GeoPoint(selectedPoint[0].latitude,
+                                selectedPoint[0].longitude);
+                            origin[1] = selectedPoint[1];
+                            updateButton();
+                          });
+                        }
+                      } catch (e) {
+                        log(e.toString());
                       }
                     }),
                 gap(height: 10),
@@ -100,7 +107,8 @@ class _OrderServiceState extends State<OrderService> {
                     indicator: "اختر العنوان",
                     icon: UIcons.regularRounded.flag,
                     onPressed: () async {
-                      final List selectedPoint = await Navigator.of(context)
+                      try {
+                        final List selectedPoint = await Navigator.of(context)
                           .push(CupertinoPageRoute(
                               builder: (context) =>
                                   const SelectAddress(address: "عنوان التوصيل"),
@@ -113,6 +121,9 @@ class _OrderServiceState extends State<OrderService> {
                           destination[1] = selectedPoint[1];
                           updateButton();
                         });
+                      }
+                      } catch (e) {
+                        log(e.toString());
                       }
                     }),
                 gap(height: 10),
@@ -143,9 +154,13 @@ class _OrderServiceState extends State<OrderService> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 primaryButton(context, "التالي",
-                    onPressed: !active
+                    loading: _loading,
+                    onPressed: !active || _loading == true
                         ? null
                         : () {
+                            setState(() {
+                              _loading = true;
+                            });
                             sendOrder(context,
                                 service: serviceItem,
                                 description: description.text,

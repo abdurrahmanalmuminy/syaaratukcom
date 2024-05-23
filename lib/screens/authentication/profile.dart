@@ -17,6 +17,7 @@ class _ProfileState extends State<Profile> {
   String gender = "ذكر";
 
   bool active = false;
+  bool _loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -72,9 +73,13 @@ class _ProfileState extends State<Profile> {
                   }),
               const Expanded(child: SizedBox()),
               primaryButton(context, "التالي",
-                  onPressed: !active
+                  loading: _loading,
+                  onPressed: !active || _loading == true
                       ? null
                       : () {
+                          setState(() {
+                            _loading = true;
+                          });
                           signUp(context,
                               name: name.text,
                               email: email.text,
