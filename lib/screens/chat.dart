@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sayaaratukcom/models/chat_model.dart';
 import 'package:sayaaratukcom/models/offer_model.dart';
@@ -39,18 +40,18 @@ class _ChatState extends State<Chat> {
             note(
                 "لا تقدم أي معلومات خاصة أو حساسة، جميع الرسائل مسجلة وفريقنا الفني على إطلاع بها"),
             gap(height: 25),
-            StreamBuilder<List<ChatModel>>(
-              stream: streamChat(widget.offer.orderId),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  log(snapshot.error.toString());
-                  return errorOccurred();
-                } else if (snapshot.hasData) {
-                  final chatItems = snapshot.data!;
-                  if (chatItems.isNotEmpty) {
-                    final chatItemsList = chatItems;
-                    return Expanded(
-                      child: ListView(
+            Expanded(
+              child: StreamBuilder<List<ChatModel>>(
+                stream: streamChat(widget.offer.orderId),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    log(snapshot.error.toString());
+                    return errorOccurred();
+                  } else if (snapshot.hasData) {
+                    final chatItems = snapshot.data!;
+                    if (chatItems.isNotEmpty) {
+                      final chatItemsList = chatItems;
+                      return ListView(
                         reverse: true,
                         shrinkWrap: true,
                         padding: const EdgeInsets.only(
@@ -58,17 +59,17 @@ class _ChatState extends State<Chat> {
                         children: chatItemsList
                             .map((chatData) => chatItem(chatData))
                             .toList(),
-                      ),
-                    );
+                      );
+                    } else {
+                      return noData(customNoData: "كن أول من يرسل");
+                    }
                   } else {
-                    return noData(customNoData: "كن أول من يرسل");
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
                   }
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
+                },
+              ),
             ),
             Container(
               padding: const EdgeInsets.only(top: 10),

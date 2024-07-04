@@ -66,7 +66,9 @@ class _OrderPageState extends State<OrderPage> {
                             color: AppColors.red, onTap: () {
                           showAlertDialog(context,
                               title: "إلغاء الطلب",
-                              content: "هل أنت متأكد من إلغاء الطلب", onOk: () {
+                              content: order.paymentOption != "الدفع الإلكتروني"
+                                  ? "هل أنت متأكد من إلغاء الطلب؟"
+                                  : "هل أنت متأكد من إلغاء الطلب؟ سيتم إرجاع المبلغ المدفوع إلى المحفظة", onOk: () {
                             cancelOrder(context, order.id, order.offerId);
                           });
                         }),

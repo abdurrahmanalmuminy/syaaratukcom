@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sayaaratukcom/models/offer_model.dart';
 import 'package:sayaaratukcom/models/order_model.dart';
-import 'package:sayaaratukcom/screens/payment_options.dart';
+import 'package:sayaaratukcom/screens/payment/payment.dart';
+// import 'package:sayaaratukcom/screens/payment_options.dart';
 import 'package:sayaaratukcom/services/send_order.dart';
 import 'package:sayaaratukcom/widgets/widgets.dart';
 
@@ -40,7 +42,11 @@ void showOffer(context, OfferModel offerData, OrderModel order) {
                     primaryButton(context, "قبول العرض", onPressed: () {
                       if (order.paymentOption == "الدفع الإلكتروني") {
                         Navigator.pop(context);
-                        paymentOptions(context, offer: offerData);
+                        Navigator.pop(context);
+                        Navigator.of(context).push(CupertinoPageRoute(
+                            builder: (context) =>
+                                PaymentPage(offer: offerData)));
+                        // paymentOptions(context, offer: offerData);
                       } else {
                         acceptOffer(context, order.id, offerData.offerId);
                       }

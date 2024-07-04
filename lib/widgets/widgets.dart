@@ -378,7 +378,7 @@ Widget profile(context, void Function() uploadAvatar) {
                     color: AppColors.primaryColor,
                     borderRadius: BorderRadius.circular(100)),
                 child: Icon(
-                  UIcons.regularRounded.arrow_up_from_square,
+                  UIcons.regularRounded.user,
                   color: Colors.black,
                 ),
               ),
@@ -676,5 +676,33 @@ Widget chatItem(ChatModel chat) {
         ),
       ),
     ],
+  );
+}
+
+Widget orDivider() {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 15),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          child: Divider(
+            color: AppColors.highlight2,
+            height: 1.5,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Text("أو",
+              style: TextStyle(color: AppColors.highlight1, fontSize: 15)),
+        ),
+        Expanded(
+          child: Divider(
+            color: AppColors.highlight2,
+            height: 1.5,
+          ),
+        ),
+      ],
+    ),
   );
 }
