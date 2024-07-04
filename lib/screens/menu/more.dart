@@ -93,11 +93,14 @@ class _MoreState extends State<More> {
               label: "الدعم الفني", icon: UIcons.regularRounded.headset),
           moreItem(context,
               label: "تسجيل الخروج",
-              icon: UIcons.regularRounded.sign_out_alt, onTap: () {
+              icon: UIcons.regularRounded.sign_out_alt,
+              color: Colors.red, onTap: () {
             signOut(context);
           }),
           moreItem(context,
-              label: "حذف الحساب", icon: UIcons.regularRounded.trash),
+              label: "حذف الحساب",
+              icon: UIcons.regularRounded.trash,
+              color: Colors.red),
           const Expanded(child: SizedBox()),
           TextButton(
             child: const Text(

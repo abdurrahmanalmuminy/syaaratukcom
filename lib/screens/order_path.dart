@@ -1,27 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:sayaaratukcom/utils/calculate_mid_point.dart';
 import 'package:sayaaratukcom/styles/dimentions.dart';
 import 'package:sayaaratukcom/widgets/widgets.dart';
 import 'package:uicons/uicons.dart';
 
 class OrderPath extends StatefulWidget {
-  const OrderPath({super.key});
+  final LatLng origin;
+  final LatLng destination;
+  const OrderPath({super.key, required this.origin, required this.destination});
 
   @override
   State<OrderPath> createState() => _OrderPathState();
 }
 
 class _OrderPathState extends State<OrderPath> {
-  //deliveryPoint
-  final double _originLatitude = 24.631463357580124;
-  final double _originLongitude = 46.70812960714102;
-
-  //receivingPoint
-  final double _destLatitude = 24.66210894398098;
-  final double _destLongitude = 46.718915440142155;
-
   Map<MarkerId, Marker> markers = {};
   Map<PolylineId, Polyline> polylines = {};
   List<LatLng> polylineCoordinates = [];
@@ -37,18 +30,19 @@ class _OrderPathState extends State<OrderPath> {
 
   _addPolyLine() {
     PolylineId id = const PolylineId("poly");
-    Polyline polyline = Polyline(
-        polylineId: id, color: Colors.red, points: polylineCoordinates);
+    Polyline polyline =
+        Polyline(polylineId: id, color: Colors.red, points: polylineCoordinates);
     polylines[id] = polyline;
     setState(() {});
   }
 
   _getPolyline() async {
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-        googleAPiKey,
-        PointLatLng(_originLatitude, _originLongitude),
-        PointLatLng(_destLatitude, _destLongitude),
-        travelMode: TravelMode.driving,);
+      googleAPiKey,
+      PointLatLng(widget.origin.latitude, widget.origin.longitude),
+      PointLatLng(widget.destination.latitude, widget.destination.longitude),
+      travelMode: TravelMode.driving,
+    );
     if (result.points.isNotEmpty) {
       for (var point in result.points) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
@@ -62,11 +56,10 @@ class _OrderPathState extends State<OrderPath> {
     super.initState();
 
     /// origin marker
-    _addMarker(LatLng(_originLatitude, _originLongitude), "origin",
-        BitmapDescriptor.defaultMarker);
+    _addMarker(widget.origin, "origin", BitmapDescriptor.defaultMarker);
 
     /// destination marker
-    _addMarker(LatLng(_destLatitude, _destLongitude), "destination",
+    _addMarker(widget.destination, "destination",
         BitmapDescriptor.defaultMarkerWithHue(90));
     _getPolyline();
   }
@@ -107,7 +100,7 @@ class _OrderPathState extends State<OrderPath> {
                       myLocationEnabled: true,
                       myLocationButtonEnabled: true,
                       initialCameraPosition: CameraPosition(
-                          target: calculateMidPoint(LatLng(_originLatitude, _originLongitude), LatLng(_destLatitude, _destLongitude)),
+                          target: widget.destination,
                           zoom: 14),
                       polylines: Set<Polyline>.of(polylines.values),
                       markers: Set<Marker>.of(markers.values),

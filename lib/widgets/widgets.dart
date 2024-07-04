@@ -2,10 +2,13 @@ import 'package:app_settings/app_settings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:sayaaratukcom/models/chat_model.dart';
 import 'package:sayaaratukcom/models/notification_model.dart';
 import 'package:sayaaratukcom/models/offer_model.dart';
 import 'package:sayaaratukcom/models/order_model.dart';
 import 'package:sayaaratukcom/models/user_model.dart';
+import 'package:sayaaratukcom/screens/chat.dart';
 import 'package:sayaaratukcom/screens/wallet.dart';
 import 'package:sayaaratukcom/styles/colors.dart';
 import 'package:sayaaratukcom/models/services.dart';
@@ -228,7 +231,7 @@ AppBar appBar(context, {required String title}) {
   );
 }
 
-AppBar pageBar(context, {required String title}) {
+AppBar pageBar(context, {required String title, List<Widget>? actions}) {
   return AppBar(
     backgroundColor: Colors.white,
     leadingWidth: double.infinity,
@@ -247,6 +250,7 @@ AppBar pageBar(context, {required String title}) {
         ),
       ],
     ),
+    actions: actions,
   );
 }
 
@@ -440,11 +444,14 @@ Widget grantPermission(context) {
   );
 }
 
-Widget orderPathIndicator(context, List addresses) {
+Widget orderPathIndicator(
+    context, List addresses, LatLng origin, LatLng destination) {
   return OutlinedButton(
       onPressed: () {
         Navigator.of(context).push(CupertinoPageRoute(
-            builder: (context) => const OrderPath(), fullscreenDialog: true));
+            builder: (context) =>
+                OrderPath(origin: origin, destination: destination),
+            fullscreenDialog: true));
       },
       style: OutlinedButton.styleFrom(
           side: BorderSide(color: AppColors.highlight2, width: 1.5),
@@ -475,7 +482,7 @@ Widget orderPathIndicator(context, List addresses) {
 }
 
 Widget offer(context, OfferModel offer,
-    {bool? clickable, required OrderModel order}) {
+    {bool? clickable, required OrderModel order, bool? chat}) {
   return ElevatedButton(
     onPressed: clickable != false
         ? () {
@@ -489,50 +496,65 @@ Widget offer(context, OfferModel offer,
           borderRadius: BorderRadius.circular(10),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
-    child: Row(
+    child: Column(
       children: [
-        CachedNetworkImage(
-          width: 50,
-          height: 50,
-          imageUrl: offer.serviceProvider[2],
-          imageBuilder: (context, imageProvioder) {
-            return Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                image: DecorationImage(
-                    image: imageProvioder,
-                    fit: BoxFit.cover,
-                    alignment: Alignment.topCenter),
-              ),
-            );
-          },
-          placeholder: (context, url) => const Center(
-            child: CircularProgressIndicator(),
-          ),
-        ),
-        gap(width: 10),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        Row(
           children: [
-            Text(offer.serviceProvider[1],
-                style: const TextStyle(
-                    fontSize: 19,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600)),
+            CachedNetworkImage(
+              width: 50,
+              height: 50,
+              imageUrl: offer.serviceProvider[2],
+              imageBuilder: (context, imageProvioder) {
+                return Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    image: DecorationImage(
+                        image: imageProvioder,
+                        fit: BoxFit.cover,
+                        alignment: Alignment.topCenter),
+                  ),
+                );
+              },
+              placeholder: (context, url) => const Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+            gap(width: 10),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(offer.serviceProvider[1],
+                    style: const TextStyle(
+                        fontSize: 19,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600)),
+              ],
+            ),
+            const Expanded(child: SizedBox()),
+            RichText(
+              text: TextSpan(
+                  text: offer.price.toString(),
+                  style: Theme.of(context).textTheme.titleLarge,
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: "ر.س",
+                      style:
+                          TextStyle(fontSize: 15, color: AppColors.highlight1),
+                    )
+                  ]),
+            ),
           ],
         ),
-        const Expanded(child: SizedBox()),
-        RichText(
-          text: TextSpan(
-              text: offer.price.toString(),
-              style: Theme.of(context).textTheme.titleLarge,
-              children: <TextSpan>[
-                TextSpan(
-                  text: "ر.س",
-                  style: TextStyle(fontSize: 15, color: AppColors.highlight1),
-                )
-              ]),
-        ),
+        chat == true ? Divider(color: AppColors.highlight2) : const SizedBox(),
+        chat == true
+            ? moreItem(context,
+                label: "الدردشة",
+                icon: UIcons.regularRounded.comment, onTap: () {
+                Navigator.of(context).push(CupertinoPageRoute(
+                    builder: (context) => Chat(offer: offer),
+                    fullscreenDialog: true));
+              })
+            : const SizedBox()
       ],
     ),
   );
@@ -565,11 +587,11 @@ Widget errorOccurred() {
   );
 }
 
-Widget noData() {
-  return const Center(
+Widget noData({String? customNoData}) {
+  return Center(
     child: Text(
-      "لاتوجد معلومات لعرضها",
-      style: TextStyle(fontSize: 16),
+      customNoData ?? "لاتوجد معلومات لعرضها",
+      style: const TextStyle(fontSize: 16),
     ),
   );
 }
@@ -607,5 +629,52 @@ Widget avatar(context, void Function() uploadAvatar, {double? size}) {
         ),
       ),
     ),
+  );
+}
+
+Widget note(note) {
+  return Container(
+    constraints: const BoxConstraints(maxWidth: 350),
+    padding: const EdgeInsets.all(10),
+    decoration: BoxDecoration(
+        color: AppColors.highlight, borderRadius: BorderRadius.circular(10)),
+    child: Text(note,
+        style: const TextStyle(color: Colors.white),
+        textAlign: TextAlign.center),
+  );
+}
+
+Widget chatItem(ChatModel chat) {
+  bool me = chat.user == userProfile.uid;
+  return Row(
+    mainAxisAlignment:
+        me != true ? MainAxisAlignment.end : MainAxisAlignment.start,
+    children: [
+      Container(
+        constraints: const BoxConstraints(maxWidth: 250),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        margin: const EdgeInsets.only(bottom: 3),
+        decoration: BoxDecoration(
+            color: me != true ? AppColors.highlight3 : AppColors.primaryColor,
+            borderRadius: BorderRadius.circular(10)),
+        child: Column(
+          crossAxisAlignment:
+              me != true ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+          children: [
+            Text(
+              chat.message,
+              style: const TextStyle(fontWeight: FontWeight.w500),
+            ),
+            gap(height: 1),
+            Text(
+              timestampTime(chat.sentAt),
+              textDirection: TextDirection.ltr,
+              style:
+                  TextStyle(fontSize: 10, color: Colors.black.withOpacity(0.5)),
+            ),
+          ],
+        ),
+      ),
+    ],
   );
 }

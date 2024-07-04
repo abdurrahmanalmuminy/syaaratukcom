@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sayaaratukcom/models/offer_model.dart';
 import 'package:sayaaratukcom/models/order_model.dart';
 import 'package:sayaaratukcom/services/send_order.dart';
@@ -50,7 +51,11 @@ class _OrderPageState extends State<OrderPage> {
                 label: order.status, icon: UIcons.regularRounded.list_check),
             gap(height: 25),
             orderPathIndicator(
-                context, [order.originAddress, order.destinationAddress]),
+                context,
+                [order.originAddress, order.destinationAddress],
+                LatLng(order.originPoint.latitude, order.originPoint.longitude),
+                LatLng(order.destinationPoint.latitude,
+                    order.destinationPoint.longitude)),
             order.status == "جاري التنفيذ"
                 ? Row(
                     children: [
@@ -70,51 +75,58 @@ class _OrderPageState extends State<OrderPage> {
                         child: moreItem(context,
                             label: "إنهاء الطلب",
                             icon: UIcons.regularRounded.social_network,
+                            color: Colors.green.shade500,
                             onTap: () {}),
                       ),
                     ],
                   )
                 : const SizedBox(),
             gap(height: 25),
-            order.status != "ملغي" ? section(context,
-                title:
-                    order.status == "جاري التنفيذ" ? "مزود الخدمة" : "العروض",
-                noPadding: true) : const SizedBox(),
+            order.status != "ملغي"
+                ? section(context,
+                    title: order.status == "جاري التنفيذ"
+                        ? "مزود الخدمة"
+                        : "العروض",
+                    noPadding: true)
+                : const SizedBox(),
             gap(height: 10),
 
             //offers
-            order.status != "ملغي" ? StreamBuilder<List<OfferModel>>(
-              stream: order.status == "جاري التنفيذ"
-                  ? streamAcceptedOffer(order.id)
-                  : streamAllOffers(order.id),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  log(snapshot.error.toString());
-                  return errorOccurred();
-                } else if (snapshot.hasData) {
-                  final offerItems = snapshot.data!;
-                  if (offerItems.isNotEmpty) {
-                    final offerItemsList = offerItems;
-                    return Expanded(
-                      child: ListView(
-                        shrinkWrap: true,
-                        children: offerItemsList
-                            .map((offerData) => offer(context, offerData,
-                                order: order,
-                                clickable: order.status != "جاري التنفيذ"))
-                            .toList(),
-                      ),
-                    );
-                  } else {
-                    return noData();
-                  }
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
-            ) : const SizedBox(),
+            order.status != "ملغي"
+                ? StreamBuilder<List<OfferModel>>(
+                    stream: order.status == "جاري التنفيذ"
+                        ? streamAcceptedOffer(order.id)
+                        : streamAllOffers(order.id),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        log(snapshot.error.toString());
+                        return errorOccurred();
+                      } else if (snapshot.hasData) {
+                        final offerItems = snapshot.data!;
+                        if (offerItems.isNotEmpty) {
+                          final offerItemsList = offerItems;
+                          return Expanded(
+                            child: ListView(
+                              shrinkWrap: true,
+                              children: offerItemsList
+                                  .map((offerData) => offer(context, offerData,
+                                      order: order,
+                                      clickable: order.status != "جاري التنفيذ",
+                                      chat: order.status == "جاري التنفيذ"))
+                                  .toList(),
+                            ),
+                          );
+                        } else {
+                          return noData();
+                        }
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    },
+                  )
+                : const SizedBox(),
           ],
         ),
       ),

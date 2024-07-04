@@ -1,6 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
+String timestampTime(Timestamp timestamp) {
+  DateTime dateTime = timestamp.toDate();
+  String formattedDateTime = DateFormat('hh:mm a').format(dateTime);
+  return formattedDateTime;
+}
+
 String formatTimestamp(Timestamp timestamp) {
   DateTime dateTime = timestamp.toDate();
 
