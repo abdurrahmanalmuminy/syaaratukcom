@@ -501,38 +501,66 @@ Widget offer(context, OfferModel offer,
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
     child: Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(10),
-          child: Row(
-            children: [
-              Icon(UIcons.regularRounded.layers, color: Colors.black),
-              gap(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(offer.serviceProvider[1],
-                      style: const TextStyle(
-                          fontSize: 19,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600)),
-                ],
-              ),
-              const Expanded(child: SizedBox()),
-              RichText(
-                text: TextSpan(
-                    text: offer.price.toString(),
-                    style: Theme.of(context).textTheme.titleLarge,
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: "ر.س",
-                        style: TextStyle(
-                            fontSize: 15, color: AppColors.highlight1),
-                      )
-                    ]),
-              ),
-            ],
-          ),
+        Row(
+          children: [
+            offer.serviceProvider[2] != ""
+                ? CachedNetworkImage(
+                    width: 50,
+                    height: 50,
+                    imageUrl: offer.serviceProvider[2],
+                    imageBuilder: (context, imageProvioder) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          image: DecorationImage(
+                              image: imageProvioder,
+                              fit: BoxFit.cover,
+                              alignment: Alignment.topCenter),
+                        ),
+                      );
+                    },
+                    placeholder: (context, url) => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  )
+                : Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                        color: AppColors.primaryColor,
+                        borderRadius: BorderRadius.circular(100)),
+                    child: Icon(
+                      UIcons.regularRounded.user,
+                      color: Colors.black,
+                    ),
+                  ),
+            gap(width: 10),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(offer.serviceProvider[1],
+                    style: const TextStyle(
+                        fontSize: 19,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600)),
+              ],
+            ),
+            const Expanded(child: SizedBox()),
+            RichText(
+              text: TextSpan(
+                  text: offer.price.toString(),
+                  style: Theme.of(context).textTheme.titleLarge,
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: "ر.س",
+                      style:
+                          TextStyle(fontSize: 15, color: AppColors.highlight1),
+                    )
+                  ]),
+            ),
+          ],
         ),
+        chat == true ? Divider(color: AppColors.highlight2) : const SizedBox(),
         chat == true
             ? moreItem(context,
                 label: "الدردشة",
@@ -584,12 +612,12 @@ Widget noData({String? customNoData}) {
   );
 }
 
-Widget avatar(context, void Function() uploadAvatar, {double? size}) {
+Widget avatar(context, void Function() uploadAvatar) {
   return InkWell(
     onTap: uploadAvatar,
     child: CachedNetworkImage(
-      width: size ?? 55,
-      height: size ?? 55,
+      width: 50,
+      height: 50,
       imageUrl: userProfile.avatarUrl,
       imageBuilder: (context, imageProvioder) {
         return Container(
@@ -606,13 +634,13 @@ Widget avatar(context, void Function() uploadAvatar, {double? size}) {
         child: CircularProgressIndicator(),
       ),
       errorWidget: (context, url, error) => Container(
-        width: size ?? 55,
-        height: size ?? 55,
+        width: 50,
+        height: 50,
         decoration: BoxDecoration(
             color: AppColors.primaryColor,
             borderRadius: BorderRadius.circular(100)),
         child: Icon(
-          UIcons.regularRounded.picture,
+          UIcons.regularRounded.user,
           color: Colors.black,
         ),
       ),
