@@ -73,6 +73,5 @@ Future acceptOffer(context, String orderId, String offerId) async {
     Navigator.pop(context);
   } catch (e) {
     log(e.toString());
-    snackBar(context, translateError(e.toString()));
   }
 }

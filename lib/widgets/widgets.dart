@@ -7,6 +7,7 @@ import 'package:sayaaratukcom/models/chat_model.dart';
 import 'package:sayaaratukcom/models/notification_model.dart';
 import 'package:sayaaratukcom/models/offer_model.dart';
 import 'package:sayaaratukcom/models/order_model.dart';
+import 'package:sayaaratukcom/models/transaction_model.dart';
 import 'package:sayaaratukcom/models/user_model.dart';
 import 'package:sayaaratukcom/screens/chat.dart';
 import 'package:sayaaratukcom/screens/wallet.dart';
@@ -404,13 +405,15 @@ Widget moreItem(context,
     {required String label,
     required IconData icon,
     void Function()? onTap,
+    trailing,
     Color? color}) {
   return InkWell(
     onTap: onTap,
     child: ListTile(
         leading: Icon(icon, size: 20, color: color),
         title: Text(label),
-        textColor: color),
+        textColor: color,
+        trailing: trailing),
   );
 }
 
@@ -498,58 +501,44 @@ Widget offer(context, OfferModel offer,
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
     child: Column(
       children: [
-        Row(
-          children: [
-            CachedNetworkImage(
-              width: 50,
-              height: 50,
-              imageUrl: offer.serviceProvider[2],
-              imageBuilder: (context, imageProvioder) {
-                return Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    image: DecorationImage(
-                        image: imageProvioder,
-                        fit: BoxFit.cover,
-                        alignment: Alignment.topCenter),
-                  ),
-                );
-              },
-              placeholder: (context, url) => const Center(
-                child: CircularProgressIndicator(),
+        Padding(
+          padding: const EdgeInsets.all(10),
+          child: Row(
+            children: [
+              Icon(UIcons.regularRounded.layers, color: Colors.black),
+              gap(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(offer.serviceProvider[1],
+                      style: const TextStyle(
+                          fontSize: 19,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600)),
+                ],
               ),
-            ),
-            gap(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(offer.serviceProvider[1],
-                    style: const TextStyle(
-                        fontSize: 19,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600)),
-              ],
-            ),
-            const Expanded(child: SizedBox()),
-            RichText(
-              text: TextSpan(
-                  text: offer.price.toString(),
-                  style: Theme.of(context).textTheme.titleLarge,
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: "ر.س",
-                      style:
-                          TextStyle(fontSize: 15, color: AppColors.highlight1),
-                    )
-                  ]),
-            ),
-          ],
+              const Expanded(child: SizedBox()),
+              RichText(
+                text: TextSpan(
+                    text: offer.price.toString(),
+                    style: Theme.of(context).textTheme.titleLarge,
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: "ر.س",
+                        style: TextStyle(
+                            fontSize: 15, color: AppColors.highlight1),
+                      )
+                    ]),
+              ),
+            ],
+          ),
         ),
-        chat == true ? Divider(color: AppColors.highlight2) : const SizedBox(),
         chat == true
             ? moreItem(context,
                 label: "الدردشة",
-                icon: UIcons.regularRounded.comment, onTap: () {
+                icon: UIcons.regularRounded.comment,
+                trailing: Icon(UIcons.regularRounded.angle_small_left),
+                onTap: () {
                 Navigator.of(context).push(CupertinoPageRoute(
                     builder: (context) => Chat(offer: offer),
                     fullscreenDialog: true));
@@ -560,19 +549,18 @@ Widget offer(context, OfferModel offer,
   );
 }
 
-Widget transaction(context,
-    {required String subject, required String message}) {
+Widget transaction(context, TransactionModel transaction) {
   return InkWell(
     onTap: () {},
     child: ListTile(
-      trailing:
-          Text("- 102.00 ر.س", style: Theme.of(context).textTheme.titleSmall),
+      trailing: Text("${transaction.amount} ر.س",
+          style: Theme.of(context).textTheme.titleSmall),
       contentPadding: const EdgeInsets.symmetric(horizontal: 0),
       title: Text(
-        subject,
+        transaction.transaction,
         style: Theme.of(context).textTheme.titleMedium,
       ),
-      subtitle: Text(message),
+      subtitle: Text(formatTimestamp(transaction.dueAt)),
       shape: Border(bottom: BorderSide(width: 1, color: AppColors.highlight3)),
     ),
   );

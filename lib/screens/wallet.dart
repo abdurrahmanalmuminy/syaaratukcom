@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:sayaaratukcom/models/transaction_model.dart';
 import 'package:sayaaratukcom/models/user_model.dart';
 import 'package:sayaaratukcom/styles/colors.dart';
 import 'package:sayaaratukcom/widgets/widgets.dart';
@@ -51,12 +54,35 @@ void showWallet(context) {
                         ),
                       ),
                       section(context, title: "العمليات", noPadding: true),
-                      transaction(context,
-                          subject: "رسوم الطلب",
-                          message: "11 يوليو 2023 - 10:47"),
-                      transaction(context,
-                          subject: "رسوم الطلب",
-                          message: "11 يوليو 2023 - 10:47"),
+                      StreamBuilder<List<TransactionModel>>(
+                stream: streamTransactions(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    log(snapshot.error.toString());
+                    return errorOccurred();
+                  } else if (snapshot.hasData) {
+                    final transactionItems = snapshot.data!;
+                    if (transactionItems.isNotEmpty) {
+                      final transactionItemsList = transactionItems;
+                      return Expanded(
+                        child: ListView(
+                          shrinkWrap: true,
+                          children: transactionItemsList
+                              .map((transactionData) =>
+                                  transaction(context, transactionData))
+                              .toList(),
+                        ),
+                      );
+                    } else {
+                      return noData(customNoData: "لا توجد عمليات");
+                    }
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              ),
                     ],
                   ),
                 ),

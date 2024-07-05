@@ -5,6 +5,7 @@ import 'package:moyasar/moyasar.dart';
 import 'package:sayaaratukcom/models/offer_model.dart';
 import 'package:sayaaratukcom/screens/payment/result.dart';
 import 'package:sayaaratukcom/services/send_order.dart';
+import 'package:sayaaratukcom/services/wallet_transactions.dart';
 import 'package:sayaaratukcom/styles/dimentions.dart';
 import 'package:sayaaratukcom/widgets/widgets.dart';
 
@@ -40,12 +41,16 @@ class _PaymentPageState extends State<PaymentPage> {
       if (result is PaymentResponse) {
         switch (result.status) {
           case PaymentStatus.paid:
-          acceptOffer(context, widget.offer.orderId, widget.offer.offerId);
-          Navigator.pop(context);
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const Result()),
-            );
+            acceptOffer(context, widget.offer.orderId, widget.offer.offerId);
+            createTransaction(context, transaction: "طلب #${widget.offer.orderId}", amount: widget.offer.price)
+                .then((value) {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Result()),
+              );
+            });
+
             break;
           case PaymentStatus.failed:
             print("failed");
