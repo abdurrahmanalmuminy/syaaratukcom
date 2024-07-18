@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:sayaaratukcom/firebase_options.dart';
 import 'package:sayaaratukcom/screens/authentication/profile.dart';
 import 'package:sayaaratukcom/screens/menu/navigation.dart';
 import 'package:sayaaratukcom/services/register_user.dart';
@@ -16,7 +17,8 @@ bool registered = false;
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+      name: "Sayaaratukcom", options: DefaultFirebaseOptions.currentPlatform);
   SystemChrome.setEnabledSystemUIMode(
     SystemUiMode.manual,
     overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
