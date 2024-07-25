@@ -40,7 +40,7 @@ void verifyPhoneNumber(BuildContext context, String phone) async {
   }
 }
 
-void verifyOtp(BuildContext context, verificationId, smsCode) async {
+Future verifyOtp(BuildContext context, verificationId, smsCode) async {
   try {
     FirebaseAuth auth = FirebaseAuth.instance;
     PhoneAuthCredential credential = PhoneAuthProvider.credential(

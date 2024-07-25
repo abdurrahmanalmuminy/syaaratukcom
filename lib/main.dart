@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sayaaratukcom/firebase_options.dart';
+import 'package:sayaaratukcom/models/user_model.dart';
 import 'package:sayaaratukcom/screens/authentication/profile.dart';
 import 'package:sayaaratukcom/screens/menu/navigation.dart';
+import 'package:sayaaratukcom/services/messaging_services.dart';
 import 'package:sayaaratukcom/services/register_user.dart';
 import 'package:sayaaratukcom/utils/change_notifier.dart';
 import 'package:sayaaratukcom/styles/colors.dart';
@@ -14,6 +16,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sayaaratukcom/screens/welcome.dart';
 
 bool registered = false;
+final navigatorKey = GlobalKey<NavigatorState>();
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +27,9 @@ Future main() async {
     overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
   );
   registered = await initUser();
+  if (FirebaseAuth.instance.currentUser != null) {
+    await MessagingServices().initNotifications(uid: userProfile.uid);
+  }
   runApp(
     ChangeNotifierProvider(
       create: (_) => LocaleProvider(),
@@ -33,6 +39,7 @@ Future main() async {
 }
 
 class MyApp extends StatelessWidget {
+  static const navigation = '/navigation';
   const MyApp({super.key});
 
   @override

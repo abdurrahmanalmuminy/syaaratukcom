@@ -24,7 +24,7 @@ class _PaymentPageState extends State<PaymentPage> {
   void initState() {
     super.initState();
     paymentConfig = PaymentConfig(
-      publishableApiKey: "pk_live_s4mUB5DcPhLF49ZhEw5jBgk2iKFm5JegnYgct5Xw",
+      publishableApiKey: "pk_test_Tf73EfskuZaM4a9qNiccjfoQvbi7CgVTQ1Xd29ET",
       amount: widget.offer.price.ceil() * 100,
       description: "مزود الخدمة: ${widget.offer.serviceProvider[1]}",
       creditCard: CreditCardConfig(saveCard: false, manual: false),
@@ -46,8 +46,7 @@ class _PaymentPageState extends State<PaymentPage> {
           isSuccess = true;
           acceptOffer(context, widget.offer.orderId, widget.offer.offerId);
           createTransaction(context,
-                  transaction: "طلب #${widget.offer.orderId}",
-                  amount: widget.offer.price)
+                  transaction: widget.offer.orderId, amount: widget.offer.price)
               .then((value) {
             Navigator.pushReplacement(
               context,
@@ -72,7 +71,7 @@ class _PaymentPageState extends State<PaymentPage> {
     } else {
       statusMessage = "نتيجة دفع غير معروفة.";
     }
-    Navigator.pushReplacement(
+    Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) =>
@@ -83,9 +82,6 @@ class _PaymentPageState extends State<PaymentPage> {
 
   @override
   Widget build(BuildContext context) {
-    closeDialog =
-        progressDialog(context); // Initialize progress dialog function
-
     return Scaffold(
       appBar: pageBar(context, title: "إدفع بالبطاقة"),
       body: Padding(
@@ -112,29 +108,4 @@ class _PaymentPageState extends State<PaymentPage> {
       ),
     );
   }
-}
-
-Function progressDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (BuildContext context) {
-      return Center(
-        child: Container(
-          width: 80,
-          height: 80,
-          padding: const EdgeInsets.all(15),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(15),
-          ),
-          child: const CircularProgressIndicator(),
-        ),
-      );
-    },
-  );
-
-  return () {
-    Navigator.pop(context);
-  };
 }

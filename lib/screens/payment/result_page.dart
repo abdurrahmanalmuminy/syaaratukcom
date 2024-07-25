@@ -13,11 +13,6 @@ class ResultPage extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(UIcons.regularRounded.cross)),
       ),
       body: Center(
         child: SizedBox(
