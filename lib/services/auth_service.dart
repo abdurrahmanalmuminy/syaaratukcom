@@ -24,7 +24,7 @@ void verifyPhoneNumber(BuildContext context, String phone) async {
       verificationFailed: (FirebaseAuthException e) {
         showAlertDialog(context,
             title: "حدث خطأ", content: translateError(e.code));
-        log(e.code);
+        print(e.code);
       },
       codeSent: (String verificationId, int? resendToken) {
         Navigator.of(context).push(CupertinoPageRoute(

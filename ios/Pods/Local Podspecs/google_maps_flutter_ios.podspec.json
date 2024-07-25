@@ -24,7 +24,7 @@
     ],
     "GoogleMaps": [
       ">= 8.4",
-      "< 9.0"
+      "< 10.0"
     ]
   },
   "static_framework": true,
