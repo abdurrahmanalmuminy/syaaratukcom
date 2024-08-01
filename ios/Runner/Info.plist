@@ -38,13 +38,13 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>نحن بحاجة إلى موقعك لكل من المهام الأمامية والخلفية.</string>
+	<string>نحتاج إلى الوصول إلى موقعك في جميع الأوقات، سواء كان التطبيق في الواجهة الأمامية أو الخلفية، لكي نتمكن من تحديد مكانك بدقة وتقديم الخدمة المناسبة لك.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>لنتمكن من إرسال طلبك٫ يرجى السماح للتطبيق بتحديد موقعك</string>
+	<string>لإرسال طلبك بنجاح، نحتاج إلى الوصول إلى موقعك دائمًا حتى يتمكن مزود الخدمة من تحديد موقعك بدقة وتلبية طلبك بشكل فعال.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>لإرسال طلبك يجب السماح للتطبيق بتحديد موقعك</string>
+	<string>لإرسال طلبك، يرجى السماح للتطبيق بالوصول إلى موقعك عند استخدام التطبيق، لكي يتمكن مزود الخدمة من تحديد موقعك وتقديم الخدمة المطلوبة.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>نحتاج إلى الوصول إلى مكتبة الصور الخاصة بك للسماح لرفع صورتك إلى ملفك الشخصي.</string>
+	<string>نحتاج إلى الوصول إلى مكتبة الصور الخاصة بك لرفع صورتك إلى ملفك الشخصي، مما يساعدنا على تخصيص تجربة الاستخدام الخاصة بك.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>

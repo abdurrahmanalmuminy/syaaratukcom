@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sayaaratukcom/styles/colors.dart';
 import 'package:sayaaratukcom/styles/dimentions.dart';
+import 'package:sayaaratukcom/utils/launch_url.dart';
 import 'package:sayaaratukcom/widgets/widgets.dart';
 import 'package:sayaaratukcom/screens/authentication/phone.dart';
 import 'package:uicons/uicons.dart';
@@ -33,8 +34,8 @@ class _WelcomeState extends State<Welcome> {
                 child: Center(
                     child: SafeArea(
                         bottom: false,
-                        child:
-                            Image.asset("assets/images/logo.png", width: 150)))),
+                        child: Image.asset("assets/images/logo.png",
+                            width: 150)))),
             Container(
               padding: Dimensions.bodyPadding,
               color: Colors.white,
@@ -72,8 +73,13 @@ class _WelcomeState extends State<Welcome> {
                     ),
                     gap(height: 15),
                     optionB(context,
-                        text: "بتسجيل الدخول إلى حسابك أو إنشاء حساب جديد، فأنت توافق على ",
-                        option: "سياسة الإستخدام و سياسة الخصوصية")
+                        text:
+                            "بتسجيل الدخول إلى حسابك أو إنشاء حساب جديد، فأنت توافق على ",
+                        option: "سياسة الإستخدام و سياسة الخصوصية",
+                        onPressed: () {
+                      launchURL(
+                          "https://sites.google.com/view/sayaaratukcom-privacy-policy");
+                    })
                   ],
                 ),
               ),

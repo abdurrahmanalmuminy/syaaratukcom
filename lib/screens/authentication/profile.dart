@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sayaaratukcom/services/register_user.dart';
 import 'package:sayaaratukcom/styles/dimentions.dart';
+import 'package:sayaaratukcom/utils/launch_url.dart';
 import 'package:sayaaratukcom/widgets/widgets.dart';
 import 'package:uicons/uicons.dart';
 
@@ -88,7 +89,10 @@ class _ProfileState extends State<Profile> {
               optionB(context,
                   text:
                       "بياناتك آمنة، ولن يتم مشاركتها مع أي طرف ثالث لمزيد من التفاصيل ",
-                  option: "سياسة الإستخدام و سياسة الخصوصية")
+                  option: "سياسة الخصوصية", onPressed: () {
+                launchURL(
+                    "https://sites.google.com/view/sayaaratukcom-privacy-policy");
+              })
             ],
           ),
         ),

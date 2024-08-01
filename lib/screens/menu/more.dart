@@ -107,7 +107,10 @@ class _MoreState extends State<More> {
               "الكون الجديد لتقنية المعلومات",
               style: TextStyle(color: Colors.blue),
             ),
-            onPressed: () {},
+            onPressed: () {
+              launchURL(
+                "https://alkon.online");
+            },
           ),
           gap(height: 15),
         ],

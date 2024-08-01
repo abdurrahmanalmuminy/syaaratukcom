@@ -27,9 +27,6 @@ Future main() async {
     overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
   );
   registered = await initUser();
-  if (FirebaseAuth.instance.currentUser != null) {
-    await MessagingServices().initNotifications(uid: userProfile.uid);
-  }
   runApp(
     ChangeNotifierProvider(
       create: (_) => LocaleProvider(),

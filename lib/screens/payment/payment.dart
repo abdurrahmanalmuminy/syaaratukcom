@@ -24,14 +24,14 @@ class _PaymentPageState extends State<PaymentPage> {
   void initState() {
     super.initState();
     paymentConfig = PaymentConfig(
-      publishableApiKey: "pk_test_Tf73EfskuZaM4a9qNiccjfoQvbi7CgVTQ1Xd29ET",
+      publishableApiKey: "pk_live_s4mUB5DcPhLF49ZhEw5jBgk2iKFm5JegnYgct5Xw",
       amount: widget.offer.price.ceil() * 100,
       description: "مزود الخدمة: ${widget.offer.serviceProvider[1]}",
       creditCard: CreditCardConfig(saveCard: false, manual: false),
       applePay: ApplePayConfig(
           merchantId: "marchant.sayaaratukcom.sa",
           label: "سيارتك كوم",
-          manual: true),
+          manual: false),
     );
   }
 

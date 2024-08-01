@@ -3,6 +3,7 @@ import 'package:pinput/pinput.dart';
 import 'package:sayaaratukcom/services/auth_service.dart';
 import 'package:sayaaratukcom/styles/colors.dart';
 import 'package:sayaaratukcom/styles/dimentions.dart';
+import 'package:sayaaratukcom/utils/launch_url.dart';
 import 'package:sayaaratukcom/widgets/widgets.dart';
 import 'package:uicons/uicons.dart';
 
@@ -92,10 +93,13 @@ class _VerificationState extends State<Verification> {
                           });
                           verifyOtp(context, widget.verificationId, smsCode.text);
                         }),
-              optionB(context,  
+              optionB(context,
                   text:
                       "بياناتك آمنة، ولن يتم مشاركتها مع أي طرف ثالث لمزيد من التفاصيل ",
-                  option: "سياسة الإستخدام و سياسة الخصوصية")
+                  option: "سياسة الخصوصية", onPressed: () {
+                launchURL(
+                    "https://sites.google.com/view/sayaaratukcom-privacy-policy");
+              })
             ],
           ),
         ),
