@@ -27,7 +27,6 @@ class _PhoneState extends State<Phone> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
         leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
@@ -43,6 +42,7 @@ class _PhoneState extends State<Phone> {
               Hero(
                 tag: "phone_field",
                 child: Material(
+                  color: Colors.white,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -57,7 +57,7 @@ class _PhoneState extends State<Phone> {
                           icon: UIcons.regularRounded.smartphone,
                           focus: true,
                           direction: TextDirection.ltr,
-                          align: TextAlign.right, onChanged: (value) {
+                          onChanged: (value) {
                         updateButton();
                       }),
                     ],

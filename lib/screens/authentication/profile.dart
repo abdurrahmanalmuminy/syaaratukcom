@@ -30,7 +30,6 @@ class _ProfileState extends State<Profile> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
         leading: IconButton(
             onPressed: () {
               Navigator.pop(context);

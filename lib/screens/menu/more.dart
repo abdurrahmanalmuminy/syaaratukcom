@@ -8,6 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sayaaratukcom/models/user_model.dart';
+import 'package:sayaaratukcom/screens/support.dart';
 import 'package:sayaaratukcom/screens/work_with_us.dart';
 import 'package:sayaaratukcom/services/auth_service.dart';
 import 'package:sayaaratukcom/utils/launch_url.dart';
@@ -62,13 +63,15 @@ class _MoreState extends State<More> {
       appBar: appBar(context, title: "المزيد"),
       body: Column(
         children: [
-          profile(context, selectFile),
+          userProfile.uid != ""
+              ? profile(context, selectFile)
+              : askToLogin(context),
           gap(height: 25),
           moreItem(context,
               label: "إعمل معنا",
               icon: UIcons.regularRounded.briefcase, onTap: () {
             Navigator.of(context).push(CupertinoPageRoute(
-              builder: (context) => const WorkWithUs(),
+              builder: (context) => WorkWithUs(phone: userProfile.phone),
             ));
           }),
           moreItem(context,
@@ -90,17 +93,27 @@ class _MoreState extends State<More> {
                 "https://sites.google.com/view/sayaaratukcom-payment-refund");
           }),
           moreItem(context,
-              label: "الدعم الفني", icon: UIcons.regularRounded.headset),
-          moreItem(context,
-              label: "تسجيل الخروج",
-              icon: UIcons.regularRounded.sign_out_alt,
-              color: Colors.red, onTap: () {
-            signOut(context);
+              label: "الدعم الفني", icon: UIcons.regularRounded.headset, onTap: () {
+            Navigator.of(context).push(CupertinoPageRoute(
+              builder: (context) => const Support(),
+            ));
           }),
-          moreItem(context,
-              label: "حذف الحساب",
-              icon: UIcons.regularRounded.trash,
-              color: Colors.red),
+          userProfile.uid != ""
+              ? moreItem(context,
+                  label: "تسجيل الخروج",
+                  icon: UIcons.regularRounded.sign_out_alt,
+                  color: Colors.red, onTap: () {
+                  signOut(context);
+                })
+              : const SizedBox(),
+          userProfile.uid != ""
+              ? moreItem(context,
+                  label: "حذف الحساب",
+                  icon: UIcons.regularRounded.trash,
+                  color: Colors.red, onTap: () {
+                  signOut(context);
+                })
+              : const SizedBox(),
           const Expanded(child: SizedBox()),
           TextButton(
             child: const Text(
@@ -108,8 +121,7 @@ class _MoreState extends State<More> {
               style: TextStyle(color: Colors.blue),
             ),
             onPressed: () {
-              launchURL(
-                "https://alkon.online");
+              launchURL("https://alkon.online");
             },
           ),
           gap(height: 15),

@@ -40,18 +40,18 @@ class _HomeState extends State<Home> {
             children: [
               const Text("مرحباً"),
               Text(
-                userProfile.name,
+                userProfile.name != "" ? userProfile.name : "عزيزي المستخدم",
                 style: Theme.of(context).textTheme.titleLarge,
                 overflow: TextOverflow.ellipsis,
               )
             ],
           ),
         ),
-        actions: const [
-          Padding(
+        actions: [
+          userProfile.uid != "" ? const Padding(
             padding: EdgeInsets.only(left: 15),
             child: Balance(),
-          )
+          ) : const SizedBox()
         ],
       ),
       body: SingleChildScrollView(

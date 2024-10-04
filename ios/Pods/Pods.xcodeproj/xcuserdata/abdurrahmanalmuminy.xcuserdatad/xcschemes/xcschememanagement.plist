@@ -384,11 +384,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>smart_auth.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>sqflite-sqflite_darwin_privacy.xcscheme</key>
 		<dict>
 			<key>isShown</key>

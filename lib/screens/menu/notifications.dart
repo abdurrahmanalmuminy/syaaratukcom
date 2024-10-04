@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sayaaratukcom/models/notification_model.dart';
+import 'package:sayaaratukcom/models/user_model.dart';
 import 'package:sayaaratukcom/widgets/widgets.dart';
 
 class Notifications extends StatefulWidget {
@@ -14,7 +15,7 @@ class _NotificationsState extends State<Notifications> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(context, title: "الإشعارات"),
-      body: Column(
+      body: userProfile.uid != "" ? Column(
         children: [
           StreamBuilder<List<NotificationModel>>(
             stream: streamNotification(),
@@ -44,7 +45,7 @@ class _NotificationsState extends State<Notifications> {
             },
           )
         ],
-      ),
+      ) : SizedBox(width: double.infinity, child: askToLogin(context)),
     );
   }
 }

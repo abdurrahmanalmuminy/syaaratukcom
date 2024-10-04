@@ -50,7 +50,6 @@ class _VerificationState extends State<Verification> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
         leading: IconButton(
             onPressed: () {
               Navigator.pop(context);

@@ -12,7 +12,6 @@ class ResultPage extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Colors.white,
       ),
       body: Center(
         child: SizedBox(

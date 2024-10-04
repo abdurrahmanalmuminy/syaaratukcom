@@ -11,6 +11,7 @@ import 'package:sayaaratukcom/models/transaction_model.dart';
 import 'package:sayaaratukcom/models/user_model.dart';
 import 'package:sayaaratukcom/screens/chat.dart';
 import 'package:sayaaratukcom/screens/wallet.dart';
+import 'package:sayaaratukcom/screens/welcome.dart';
 import 'package:sayaaratukcom/styles/colors.dart';
 import 'package:sayaaratukcom/models/services.dart';
 import 'package:sayaaratukcom/screens/offer.dart';
@@ -276,7 +277,7 @@ Widget service(context, {required ServiceModel serviceItem}) {
   return ElevatedButton(
     onPressed: () {
       Navigator.of(context).push(CupertinoPageRoute(
-          builder: (context) => OrderService(service: serviceItem)));
+          builder: (context) => userProfile.uid != "" ? OrderService(service: serviceItem) : const Welcome()));
     },
     style: ElevatedButton.styleFrom(
       padding: const EdgeInsets.only(top: 10, right: 10),
@@ -720,5 +721,23 @@ Widget orDivider() {
         ),
       ],
     ),
+  );
+}
+
+Widget askToLogin(context) {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+      Text("يجب تسجيل الدخول أو إنشاء حساب جديد",
+          style: Theme.of(context).textTheme.titleMedium),
+      gap(height: 10),
+      SizedBox(
+        width: 200,
+        child: primaryButton(context, "تسجيل الدخول", onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const Welcome()));
+        }),
+      )
+    ],
   );
 }

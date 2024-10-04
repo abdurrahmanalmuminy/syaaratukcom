@@ -4,7 +4,6 @@ import 'package:moyasar/moyasar.dart';
 import 'package:sayaaratukcom/models/offer_model.dart';
 import 'package:sayaaratukcom/screens/payment/result_page.dart';
 import 'package:sayaaratukcom/services/send_order.dart';
-import 'package:sayaaratukcom/services/wallet_transactions.dart';
 import 'package:sayaaratukcom/styles/dimentions.dart';
 import 'package:sayaaratukcom/widgets/widgets.dart';
 
@@ -26,10 +25,11 @@ class _PaymentPageState extends State<PaymentPage> {
     paymentConfig = PaymentConfig(
       publishableApiKey: "pk_live_s4mUB5DcPhLF49ZhEw5jBgk2iKFm5JegnYgct5Xw",
       amount: widget.offer.price.ceil() * 100,
-      description: "مزود الخدمة: ${widget.offer.serviceProvider[1]}",
+      description: "عملية دفع للطلب ${widget.offer.orderId}",
+      metadata: {"مزود الخدمة": widget.offer.serviceProvider[1]},
       creditCard: CreditCardConfig(saveCard: false, manual: false),
       applePay: ApplePayConfig(
-          merchantId: "marchant.sayaaratukcom.sa",
+          merchantId: "merchant.com.sayaaratukcom.sa",
           label: "سيارتك كوم",
           manual: false),
     );
@@ -45,17 +45,13 @@ class _PaymentPageState extends State<PaymentPage> {
           statusMessage = "تمت عملية الدفع بنجاح";
           isSuccess = true;
           acceptOffer(context, widget.offer.orderId, widget.offer.offerId);
-          createTransaction(context,
-                  transaction: widget.offer.orderId, amount: widget.offer.price)
-              .then((value) {
-            Navigator.pushReplacement(
+          Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => ResultPage(
                     statusMessage: statusMessage, isSuccess: isSuccess),
               ),
             );
-          });
           break;
         case PaymentStatus.failed:
           statusMessage = "فشل في إتمام عملية الدفع.";
@@ -83,6 +79,7 @@ class _PaymentPageState extends State<PaymentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: pageBar(context, title: "إدفع بالبطاقة"),
       body: Padding(
         padding: Dimensions.bodyPadding,

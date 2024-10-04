@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:sayaaratukcom/models/order_model.dart';
+import 'package:sayaaratukcom/models/user_model.dart';
 import 'package:sayaaratukcom/widgets/widgets.dart';
 
 class Orders extends StatefulWidget {
@@ -16,7 +17,7 @@ class _OrdersState extends State<Orders> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(context, title: "الطلبات"),
-      body: Column(
+      body: userProfile.uid != "" ? Column(
         children: [
           StreamBuilder<List<OrderModel>>(
                 stream: streamOrders(),
@@ -48,7 +49,7 @@ class _OrdersState extends State<Orders> {
                 },
               ),
         ],
-      ),
+      ) : SizedBox(width: double.infinity, child: askToLogin(context)),
     );
   }
 }

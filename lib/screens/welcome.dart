@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sayaaratukcom/screens/menu/navigation.dart';
 import 'package:sayaaratukcom/styles/colors.dart';
 import 'package:sayaaratukcom/styles/dimentions.dart';
-import 'package:sayaaratukcom/utils/launch_url.dart';
 import 'package:sayaaratukcom/widgets/widgets.dart';
 import 'package:sayaaratukcom/screens/authentication/phone.dart';
 import 'package:uicons/uicons.dart';
@@ -47,6 +47,7 @@ class _WelcomeState extends State<Welcome> {
                     Hero(
                       tag: "phone_field",
                       child: Material(
+                        color: Colors.white,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
@@ -73,12 +74,12 @@ class _WelcomeState extends State<Welcome> {
                     ),
                     gap(height: 15),
                     optionB(context,
-                        text:
-                            "بتسجيل الدخول إلى حسابك أو إنشاء حساب جديد، فأنت توافق على ",
-                        option: "سياسة الإستخدام و سياسة الخصوصية",
-                        onPressed: () {
-                      launchURL(
-                          "https://sites.google.com/view/sayaaratukcom-privacy-policy");
+                        text: "ليس الأن؟ ",
+                        option: "تخطى تسجيل الدخول", onPressed: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Navigation()));
                     })
                   ],
                 ),

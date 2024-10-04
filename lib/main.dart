@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sayaaratukcom/firebase_options.dart';
-import 'package:sayaaratukcom/models/user_model.dart';
 import 'package:sayaaratukcom/screens/authentication/profile.dart';
 import 'package:sayaaratukcom/screens/menu/navigation.dart';
-import 'package:sayaaratukcom/services/messaging_services.dart';
 import 'package:sayaaratukcom/services/register_user.dart';
 import 'package:sayaaratukcom/utils/change_notifier.dart';
 import 'package:sayaaratukcom/styles/colors.dart';
@@ -54,10 +52,12 @@ class MyApp extends StatelessWidget {
               onSecondary: Colors.black,
               error: AppColors.red,
               onError: Colors.white,
-              background: Colors.white,
-              onBackground: Colors.white,
               surface: AppColors.highlight3,
               onSurface: Colors.black),
+              scaffoldBackgroundColor: Colors.white,
+              appBarTheme: const AppBarTheme(
+                backgroundColor: Colors.white
+              ),
           textTheme: const TextTheme(
             titleLarge: TextStyle(fontWeight: FontWeight.w600),
             displayMedium: TextStyle(fontWeight: FontWeight.w600),
