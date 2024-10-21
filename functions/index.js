@@ -14,7 +14,7 @@
 const {notifyOnOfferAccepted} = require("./notify_offer_accepted");
 exports.notifyOnOfferAccepted = notifyOnOfferAccepted;
 
-const {handleOrderCancellation} = require("./notify_offer_accepted");
+const {handleOrderCancellation} = require("./handle_order_cancellation");
 exports.handleOrderCancellation = handleOrderCancellation;
 
 // Create and deploy your first functions

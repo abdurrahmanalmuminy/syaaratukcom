@@ -1,6 +1,5 @@
 const functions = require("firebase-functions");
-const admin = require("firebase-admin");
-admin.initializeApp();
+const admin = require("./firebaseAdmin");
 
 exports.handleOrderCancellation = functions.firestore
     .document("orders/{orderId}")
