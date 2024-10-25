@@ -273,7 +273,7 @@
     },
     {
       "name": "firebase_storage",
-      "rootUri": "file:///Users/abdurrahmanalmuminy/.pub-cache/hosted/pub.dev/firebase_storage-12.3.2",
+      "rootUri": "file:///Users/abdurrahmanalmuminy/.pub-cache/hosted/pub.dev/firebase_storage-12.3.4",
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
@@ -285,7 +285,7 @@
     },
     {
       "name": "firebase_storage_web",
-      "rootUri": "file:///Users/abdurrahmanalmuminy/.pub-cache/hosted/pub.dev/firebase_storage_web-3.10.2",
+      "rootUri": "file:///Users/abdurrahmanalmuminy/.pub-cache/hosted/pub.dev/firebase_storage_web-3.10.3",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
@@ -435,31 +435,31 @@
     },
     {
       "name": "google_maps_flutter",
-      "rootUri": "file:///Users/abdurrahmanalmuminy/.pub-cache/hosted/pub.dev/google_maps_flutter-2.6.1",
+      "rootUri": "file:///Users/abdurrahmanalmuminy/.pub-cache/hosted/pub.dev/google_maps_flutter-2.9.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "google_maps_flutter_android",
+      "rootUri": "file:///Users/abdurrahmanalmuminy/.pub-cache/hosted/pub.dev/google_maps_flutter_android-2.14.10",
+      "packageUri": "lib/",
+      "languageVersion": "3.5"
+    },
+    {
+      "name": "google_maps_flutter_ios",
+      "rootUri": "file:///Users/abdurrahmanalmuminy/.pub-cache/hosted/pub.dev/google_maps_flutter_ios-2.13.1",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
     {
-      "name": "google_maps_flutter_android",
-      "rootUri": "file:///Users/abdurrahmanalmuminy/.pub-cache/hosted/pub.dev/google_maps_flutter_android-2.8.0",
-      "packageUri": "lib/",
-      "languageVersion": "3.1"
-    },
-    {
-      "name": "google_maps_flutter_ios",
-      "rootUri": "file:///Users/abdurrahmanalmuminy/.pub-cache/hosted/pub.dev/google_maps_flutter_ios-2.10.0",
-      "packageUri": "lib/",
-      "languageVersion": "3.2"
-    },
-    {
       "name": "google_maps_flutter_platform_interface",
-      "rootUri": "file:///Users/abdurrahmanalmuminy/.pub-cache/hosted/pub.dev/google_maps_flutter_platform_interface-2.8.0",
+      "rootUri": "file:///Users/abdurrahmanalmuminy/.pub-cache/hosted/pub.dev/google_maps_flutter_platform_interface-2.9.5",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.3"
     },
     {
       "name": "google_maps_flutter_web",
-      "rootUri": "file:///Users/abdurrahmanalmuminy/.pub-cache/hosted/pub.dev/google_maps_flutter_web-0.5.9+2",
+      "rootUri": "file:///Users/abdurrahmanalmuminy/.pub-cache/hosted/pub.dev/google_maps_flutter_web-0.5.10",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -758,6 +758,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "sizer",
+      "rootUri": "file:///Users/abdurrahmanalmuminy/.pub-cache/hosted/pub.dev/sizer-3.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "sky_engine",
       "rootUri": "file:///Users/abdurrahmanalmuminy/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
@@ -1052,7 +1058,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2024-10-21T16:48:07.461862Z",
+  "generated": "2024-10-25T12:12:11.341631Z",
   "generator": "pub",
   "generatorVersion": "3.5.1",
   "flutterRoot": "file:///Users/abdurrahmanalmuminy/flutter",

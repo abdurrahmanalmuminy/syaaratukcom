@@ -277,7 +277,9 @@ Widget service(context, {required ServiceModel serviceItem}) {
   return ElevatedButton(
     onPressed: () {
       Navigator.of(context).push(CupertinoPageRoute(
-          builder: (context) => userProfile.uid != "" ? OrderService(service: serviceItem) : const Welcome()));
+          builder: (context) => userProfile.uid != ""
+              ? OrderService(service: serviceItem)
+              : const Welcome()));
     },
     style: ElevatedButton.styleFrom(
       padding: const EdgeInsets.only(top: 10, right: 10),
@@ -449,14 +451,16 @@ Widget grantPermission(context) {
 }
 
 Widget orderPathIndicator(
-    context, List addresses, LatLng origin, LatLng destination) {
+    context, List addresses, LatLng origin, LatLng destination, bool ipad) {
   return OutlinedButton(
-      onPressed: () {
-        Navigator.of(context).push(CupertinoPageRoute(
-            builder: (context) =>
-                OrderPath(origin: origin, destination: destination),
-            fullscreenDialog: true));
-      },
+      onPressed: ipad
+          ? null
+          : () {
+              Navigator.of(context).push(CupertinoPageRoute(
+                  builder: (context) =>
+                      OrderPath(origin: origin, destination: destination),
+                  fullscreenDialog: true));
+            },
       style: OutlinedButton.styleFrom(
           side: BorderSide(color: AppColors.highlight2, width: 1.5),
           shape:
@@ -735,7 +739,8 @@ Widget askToLogin(context) {
       SizedBox(
         width: 200,
         child: primaryButton(context, "تسجيل الدخول", onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const Welcome()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const Welcome()));
         }),
       )
     ],

@@ -61,16 +61,6 @@ class _ProfileState extends State<Profile> {
                   icon: UIcons.regularRounded.envelope, onChanged: (value) {
                 updateButton();
               }),
-              gap(height: 10),
-              dropDown(
-                  value: gender,
-                  icon: UIcons.regularRounded.venus,
-                  items: ["ذكر", "أنثى"],
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      gender = newValue!;
-                    });
-                  }),
               const Expanded(child: SizedBox()),
               primaryButton(context, "التالي",
                   loading: _loading,
@@ -83,7 +73,7 @@ class _ProfileState extends State<Profile> {
                           signUp(context,
                               name: name.text,
                               email: email.text,
-                              gender: gender);
+                              gender: "");
                         }),
               optionB(context,
                   text:

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sayaaratukcom/firebase_options.dart';
-import 'package:sayaaratukcom/screens/authentication/profile.dart';
 import 'package:sayaaratukcom/screens/menu/navigation.dart';
 import 'package:sayaaratukcom/services/register_user.dart';
 import 'package:sayaaratukcom/utils/change_notifier.dart';
@@ -65,7 +64,7 @@ class MyApp extends StatelessWidget {
       home: FirebaseAuth.instance.currentUser != null
           ? registered
               ? const Navigation()
-              : const Profile()
+              : const Welcome()
           : const Welcome(),
       supportedLocales: L10n.all,
       locale: Provider.of<LocaleProvider>(context).currentLocale,

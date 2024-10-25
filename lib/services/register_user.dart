@@ -81,6 +81,7 @@ Future<bool> initUser() async {
     }
   } catch (e) {
     log(e.toString());
+    print(e);
     return false;
   }
   return false;
