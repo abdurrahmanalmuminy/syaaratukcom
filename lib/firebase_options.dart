@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDh6hi_VkS-R8okYc9VttIzUAzxlDWfvGw',
-    appId: '1:1038323445648:android:d0e2825110dbefcff80d15',
+    appId: '1:1038323445648:android:51d6ddbf9a9d2491f80d15',
     messagingSenderId: '1038323445648',
     projectId: 'sayaaratukcom',
     databaseURL: 'https://sayaaratukcom-default-rtdb.asia-southeast1.firebasedatabase.app',
@@ -59,13 +59,12 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCj_Fyi4toqbcY1XEsL4JhfI3zeltDQAIk',
-    appId: '1:1038323445648:ios:cc413659c1f29f63f80d15',
+    apiKey: 'AIzaSyBbigqsUvc7i_vIdeXiWrHXUgQfYCIaOyo',
+    appId: '1:1038323445648:ios:b12cdcc187a6adadf80d15',
     messagingSenderId: '1038323445648',
     projectId: 'sayaaratukcom',
     databaseURL: 'https://sayaaratukcom-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'sayaaratukcom.appspot.com',
     iosBundleId: 'com.sayaaratukcom.app',
   );
-
 }

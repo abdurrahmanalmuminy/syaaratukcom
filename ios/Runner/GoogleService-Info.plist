@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyCj_Fyi4toqbcY1XEsL4JhfI3zeltDQAIk</string>
+	<string>AIzaSyBbigqsUvc7i_vIdeXiWrHXUgQfYCIaOyo</string>
 	<key>GCM_SENDER_ID</key>
 	<string>1038323445648</string>
 	<key>PLIST_VERSION</key>
@@ -25,7 +25,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1038323445648:ios:cc413659c1f29f63f80d15</string>
+	<string>1:1038323445648:ios:b12cdcc187a6adadf80d15</string>
 	<key>DATABASE_URL</key>
 	<string>https://sayaaratukcom-default-rtdb.asia-southeast1.firebasedatabase.app</string>
 </dict>

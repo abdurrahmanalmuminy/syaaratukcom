@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1038323445648:android:8d2064a3193bc086f80d15",
+        "mobilesdk_app_id": "1:1038323445648:android:51d6ddbf9a9d2491f80d15",
         "android_client_info": {
-          "package_name": "com.sayaaratukcom.provider.sa"
+          "package_name": "com.sayaaratukcom.app"
         }
       },
       "oauth_client": [],
@@ -27,9 +27,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1038323445648:android:d0e2825110dbefcff80d15",
+        "mobilesdk_app_id": "1:1038323445648:android:8d2064a3193bc086f80d15",
         "android_client_info": {
-          "package_name": "com.sayaaratukcom.app"
+          "package_name": "com.sayaaratukcom.provider.sa"
         }
       },
       "oauth_client": [],
