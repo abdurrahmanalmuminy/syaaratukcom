@@ -1,4 +1,4 @@
-package com.sayaaratukcom.sa
+package com.sayaaratukcom.app
 
 import io.flutter.embedding.android.FlutterActivity
 

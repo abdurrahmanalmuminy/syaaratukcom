@@ -65,7 +65,7 @@ class DefaultFirebaseOptions {
     projectId: 'sayaaratukcom',
     databaseURL: 'https://sayaaratukcom-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'sayaaratukcom.appspot.com',
-    iosBundleId: 'com.sayaaratukcom.sa',
+    iosBundleId: 'com.sayaaratukcom.app',
   );
 
 }
