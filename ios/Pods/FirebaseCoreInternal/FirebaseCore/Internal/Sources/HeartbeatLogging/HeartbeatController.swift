@@ -126,6 +126,34 @@ public final class HeartbeatController {
     }
   }
 
+  public func flushAsync(completionHandler: @escaping (HeartbeatsPayload) -> Void) {
+    let resetTransform = { (heartbeatsBundle: HeartbeatsBundle?) -> HeartbeatsBundle? in
+      guard let oldHeartbeatsBundle = heartbeatsBundle else {
+        return nil // Storage was empty.
+      }
+      // The new value that's stored will use the old's cache to prevent the
+      // logging of duplicates after flushing.
+      return HeartbeatsBundle(
+        capacity: self.heartbeatsStorageCapacity,
+        cache: oldHeartbeatsBundle.lastAddedHeartbeatDates
+      )
+    }
+
+    // Asynchronously gets and returns the stored heartbeats, resetting storage
+    // using the given transform.
+    storage.getAndSetAsync(using: resetTransform) { result in
+      switch result {
+      case let .success(heartbeatsBundle):
+        // If no heartbeats bundle was stored, return an empty payload.
+        completionHandler(heartbeatsBundle?.makeHeartbeatsPayload() ?? HeartbeatsPayload
+          .emptyPayload)
+      case .failure:
+        // If the operation throws, assume no heartbeat(s) were retrieved or set.
+        completionHandler(HeartbeatsPayload.emptyPayload)
+      }
+    }
+  }
+
   /// Synchronously flushes the heartbeat for today.
   ///
   /// If no heartbeat was logged today, the returned payload is empty.

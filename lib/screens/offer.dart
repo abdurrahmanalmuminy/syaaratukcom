@@ -1,15 +1,11 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sayaaratukcom/models/offer_model.dart';
 import 'package:sayaaratukcom/models/order_model.dart';
 import 'package:sayaaratukcom/screens/payment/payment.dart';
-// import 'package:sayaaratukcom/screens/payment_options.dart';
 import 'package:sayaaratukcom/services/send_order.dart';
 import 'package:sayaaratukcom/widgets/widgets.dart';
-import 'package:sizer/sizer.dart';
 
 void showOffer(context, OfferModel offerData, OrderModel order) {
   showModalBottomSheet(
@@ -19,9 +15,7 @@ void showOffer(context, OfferModel offerData, OrderModel order) {
       ),
       backgroundColor: Colors.white,
       builder: (BuildContext context) {
-        return Sizer(
-          builder: (context, orientation, screenType) {
-            return Padding(
+        return Padding(
               padding: const EdgeInsets.only(top: 10),
               child: Scaffold(
                 appBar: appBar(context, title: "عرض"),
@@ -42,7 +36,7 @@ void showOffer(context, OfferModel offerData, OrderModel order) {
                             LatLng(order.originPoint.latitude,
                                 order.originPoint.longitude),
                             LatLng(order.destinationPoint.latitude,
-                                order.destinationPoint.longitude), Device.screenType == ScreenType.tablet && Platform.isIOS),
+                                order.destinationPoint.longitude)),
                         const Expanded(child: SizedBox()),
                         primaryButton(context, "قبول العرض", onPressed: () {
                           if (order.paymentOption == "الدفع الإلكتروني") {
@@ -62,7 +56,5 @@ void showOffer(context, OfferModel offerData, OrderModel order) {
                 ),
               ),
             );
-          }
-        );
       });
 }

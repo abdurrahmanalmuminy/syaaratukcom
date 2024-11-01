@@ -451,16 +451,14 @@ Widget grantPermission(context) {
 }
 
 Widget orderPathIndicator(
-    context, List addresses, LatLng origin, LatLng destination, bool ipad) {
+    context, List addresses, LatLng origin, LatLng destination) {
   return OutlinedButton(
-      onPressed: ipad
-          ? null
-          : () {
-              Navigator.of(context).push(CupertinoPageRoute(
-                  builder: (context) =>
-                      OrderPath(origin: origin, destination: destination),
-                  fullscreenDialog: true));
-            },
+      onPressed: () {
+        Navigator.of(context).push(CupertinoPageRoute(
+            builder: (context) =>
+                OrderPath(origin: origin, destination: destination),
+            fullscreenDialog: true));
+      },
       style: OutlinedButton.styleFrom(
           side: BorderSide(color: AppColors.highlight2, width: 1.5),
           shape:

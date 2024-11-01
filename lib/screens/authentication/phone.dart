@@ -74,6 +74,9 @@ class _PhoneState extends State<Phone> {
                             _loading = true;
                           });
                           verifyPhoneNumber(context, phone.text);
+                          setState(() {
+                            _loading = false;
+                          });
                         }),
               optionB(context,
                   text:

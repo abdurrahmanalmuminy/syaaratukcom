@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sayaaratukcom/models/user_model.dart';
 import 'package:sayaaratukcom/screens/menu/navigation.dart';
-import 'package:sayaaratukcom/services/messaging_services.dart';
 import 'package:sayaaratukcom/utils/translate_error.dart';
 import 'package:sayaaratukcom/widgets/snack_bar.dart';
 
@@ -74,8 +73,6 @@ Future<bool> initUser() async {
           email: userData['email'],
           gender: userData['gender'],
           balance: userData['balance'].toDouble());
-
-      await MessagingServices().initNotifications(uid: userProfile.uid);
 
       return true;
     }

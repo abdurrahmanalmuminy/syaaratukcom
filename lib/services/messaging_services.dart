@@ -8,7 +8,7 @@ Future<void> handleBackgroundMessage(RemoteMessage message) async {
   // print("Payload: ${message.data}");
 }
 
-class MessagingServices {
+class FirebaseApi {
   final firebaseMessaging = FirebaseMessaging.instance;
 
   void handleMessage(RemoteMessage? message) {
@@ -26,14 +26,17 @@ class MessagingServices {
   }
 
   Future<void> initNotifications({required String uid}) async {
-    await firebaseMessaging.requestPermission();
-    final fcmToken = await firebaseMessaging.getToken();
-    await firebaseMessaging.subscribeToTopic("all");
-    await firebaseMessaging.subscribeToTopic("users");
-    initPushNotifications();
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(uid)
-        .update({'fcmToken': fcmToken});
+    try {
+      await firebaseMessaging.requestPermission();
+      final fcmToken = await firebaseMessaging.getToken();
+      await firebaseMessaging.subscribeToTopic("all");
+      initPushNotifications();
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(uid)
+          .update({'fcmToken': fcmToken});
+    } catch (e) {
+      print(e);
+    }
   }
 }

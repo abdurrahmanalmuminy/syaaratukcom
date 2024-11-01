@@ -81,11 +81,16 @@ import Foundation
    */
   let dispatchQueue: DispatchQueue
 
+  let fetcherService: GTMSessionFetcherService
+
   let baseRequest: URLRequest
 
   init(reference: StorageReference,
+       service: GTMSessionFetcherService,
        queue: DispatchQueue) {
     self.reference = reference
+    fetcherService = service
+    fetcherService.maxRetryInterval = reference.storage.maxOperationRetryInterval
     dispatchQueue = queue
     state = .unknown
     progress = Progress(totalUnitCount: 0)

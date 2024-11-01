@@ -90,7 +90,11 @@ class _VerificationState extends State<Verification> {
                           setState(() {
                             _loading = true;
                           });
-                          verifyOtp(context, widget.verificationId, smsCode.text);
+                          verifyOtp(
+                              context, widget.verificationId, smsCode.text);
+                          setState(() {
+                            _loading = false;
+                          });
                         }),
               optionB(context,
                   text:

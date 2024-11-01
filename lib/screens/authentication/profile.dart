@@ -74,6 +74,9 @@ class _ProfileState extends State<Profile> {
                               name: name.text,
                               email: email.text,
                               gender: "");
+                          setState(() {
+                            _loading = false;
+                          });
                         }),
               optionB(context,
                   text:

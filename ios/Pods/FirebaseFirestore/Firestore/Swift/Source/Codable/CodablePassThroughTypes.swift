@@ -31,7 +31,6 @@ struct FirestorePassthroughTypes: StructureCodingPassthroughTypeResolver {
       t is GeoPoint ||
       t is Timestamp ||
       t is FieldValue ||
-      t is DocumentReference ||
-      t is VectorValue
+      t is DocumentReference
   }
 }

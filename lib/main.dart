@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sayaaratukcom/firebase_options.dart';
+import 'package:sayaaratukcom/models/user_model.dart';
 import 'package:sayaaratukcom/screens/menu/navigation.dart';
+import 'package:sayaaratukcom/services/messaging_services.dart';
 import 'package:sayaaratukcom/services/register_user.dart';
 import 'package:sayaaratukcom/utils/change_notifier.dart';
 import 'package:sayaaratukcom/styles/colors.dart';
@@ -17,13 +19,15 @@ final navigatorKey = GlobalKey<NavigatorState>();
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-      name: "Sayaaratukcom", options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   SystemChrome.setEnabledSystemUIMode(
     SystemUiMode.manual,
     overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
   );
   registered = await initUser();
+  if (FirebaseAuth.instance.currentUser != null) {
+    await FirebaseApi().initNotifications(uid: userProfile.uid);
+  }
   runApp(
     ChangeNotifierProvider(
       create: (_) => LocaleProvider(),
@@ -53,10 +57,8 @@ class MyApp extends StatelessWidget {
               onError: Colors.white,
               surface: AppColors.highlight3,
               onSurface: Colors.black),
-              scaffoldBackgroundColor: Colors.white,
-              appBarTheme: const AppBarTheme(
-                backgroundColor: Colors.white
-              ),
+          scaffoldBackgroundColor: Colors.white,
+          appBarTheme: const AppBarTheme(backgroundColor: Colors.white),
           textTheme: const TextTheme(
             titleLarge: TextStyle(fontWeight: FontWeight.w600),
             displayMedium: TextStyle(fontWeight: FontWeight.w600),

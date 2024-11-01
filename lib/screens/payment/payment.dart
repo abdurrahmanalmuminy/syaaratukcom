@@ -29,7 +29,7 @@ class _PaymentPageState extends State<PaymentPage> {
       metadata: {"مزود الخدمة": widget.offer.serviceProvider[1]},
       creditCard: CreditCardConfig(saveCard: false, manual: false),
       applePay: ApplePayConfig(
-          merchantId: "merchant.com.sayaaratukcom.app",
+          merchantId: "merchant.com.sayaaratukcom.app.sa",
           label: "سيارتك كوم",
           manual: false),
     );
