@@ -30,6 +30,7 @@ class FirebaseApi {
       await firebaseMessaging.requestPermission();
       final fcmToken = await firebaseMessaging.getToken();
       await firebaseMessaging.subscribeToTopic("all");
+      await firebaseMessaging.subscribeToTopic("users");
       initPushNotifications();
       await FirebaseFirestore.instance
           .collection("users")

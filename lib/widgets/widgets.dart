@@ -404,6 +404,42 @@ Widget profile(context, void Function() uploadAvatar) {
       ));
 }
 
+Widget avatar(context, void Function() uploadAvatar) {
+  return InkWell(
+    onTap: uploadAvatar,
+    child: CachedNetworkImage(
+      width: 50,
+      height: 50,
+      imageUrl: userProfile.avatarUrl,
+      imageBuilder: (context, imageProvioder) {
+        return Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(100),
+            image: DecorationImage(
+                image: imageProvioder,
+                fit: BoxFit.cover,
+                alignment: Alignment.topCenter),
+          ),
+        );
+      },
+      placeholder: (context, url) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+      errorWidget: (context, url, error) => Container(
+        width: 50,
+        height: 50,
+        decoration: BoxDecoration(
+            color: AppColors.primaryColor,
+            borderRadius: BorderRadius.circular(100)),
+        child: Icon(
+          UIcons.regularRounded.user,
+          color: Colors.black,
+        ),
+      ),
+    ),
+  );
+}
+
 Widget moreItem(context,
     {required String label,
     required IconData icon,
@@ -611,42 +647,6 @@ Widget noData({String? customNoData}) {
     child: Text(
       customNoData ?? "لاتوجد معلومات لعرضها",
       style: const TextStyle(fontSize: 16),
-    ),
-  );
-}
-
-Widget avatar(context, void Function() uploadAvatar) {
-  return InkWell(
-    onTap: uploadAvatar,
-    child: CachedNetworkImage(
-      width: 50,
-      height: 50,
-      imageUrl: userProfile.avatarUrl,
-      imageBuilder: (context, imageProvioder) {
-        return Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(100),
-            image: DecorationImage(
-                image: imageProvioder,
-                fit: BoxFit.cover,
-                alignment: Alignment.topCenter),
-          ),
-        );
-      },
-      placeholder: (context, url) => const Center(
-        child: CircularProgressIndicator(),
-      ),
-      errorWidget: (context, url, error) => Container(
-        width: 50,
-        height: 50,
-        decoration: BoxDecoration(
-            color: AppColors.primaryColor,
-            borderRadius: BorderRadius.circular(100)),
-        child: Icon(
-          UIcons.regularRounded.user,
-          color: Colors.black,
-        ),
-      ),
     ),
   );
 }

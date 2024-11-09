@@ -5,7 +5,7 @@ class ProviderModel {
   String name;
   String service;
   String avatarUrl;
-  double balance;
+  double? balance;
 
   ProviderModel(
       {required this.uid,
@@ -13,7 +13,7 @@ class ProviderModel {
       required this.identity,
       required this.name,
       required this.service,
-      required this.balance,
+      this.balance,
       required this.avatarUrl});
 
   Map<String, dynamic> toJson() => {
@@ -35,12 +35,3 @@ class ProviderModel {
       avatarUrl: json["avatarUrl"],
       balance: json["balance"]);
 }
-
-ProviderModel providerProfile = ProviderModel(
-    uid: "",
-    phone: "",
-    identity: "",
-    name: "",
-    service: "",
-    avatarUrl: "",
-    balance: 0.0);

@@ -13,7 +13,7 @@ Future registerProvider(context,
     required String name,
     required String service}) async {
   final providerDoc =
-      FirebaseFirestore.instance.collection("providers").doc(uid);
+      FirebaseFirestore.instance.collection("waiting_list").doc(uid);
 
   final provider = ProviderModel(
       uid: uid,
@@ -21,7 +21,6 @@ Future registerProvider(context,
       identity: identity,
       name: name,
       service: service,
-      balance: 0.0,
       avatarUrl: "");
 
   try {

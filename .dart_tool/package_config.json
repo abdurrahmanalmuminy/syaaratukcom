@@ -1052,10 +1052,10 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2024-11-01T12:58:20.402432Z",
+  "generated": "2024-11-09T10:25:57.909184Z",
   "generator": "pub",
-  "generatorVersion": "3.5.1",
+  "generatorVersion": "3.5.4",
   "flutterRoot": "file:///Users/abdurrahmanalmuminy/flutter",
-  "flutterVersion": "3.24.1",
+  "flutterVersion": "3.24.4",
   "pubCache": "file:///Users/abdurrahmanalmuminy/.pub-cache"
 }
